@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -30,6 +30,7 @@
     color:var(--ink);
   }
 
+  /* ===== BOOK SHELL ===== */
   .book{
     position:relative;
     width:min(92vw, 480px);
@@ -206,24 +207,64 @@
   .badge:nth-child(2){transform:rotate(3deg);}
   .badge:nth-child(3){transform:rotate(-2deg);}
 
-  .lockScreen{
-    position:absolute; inset:0;
-    background:var(--paper);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:14px;
-    padding:30px;
-    text-align:center;
-    z-index:5;
+  /* ===== PAGE 3 : ALBUM ===== */
+  .albumHead{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:10px;
+    margin-bottom:16px;
   }
-  .lockScreen svg{width:44px;height:44px;color:var(--margin);}
-  .lockScreen h3{font-family:'Kalam',cursive;font-size:24px;margin:0;}
-  .lockScreen p{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7994;margin:0;max-width:220px;}
+  .albumHead h2.pageTitle{margin:0;}
+  .ownerToggle{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1.5px solid var(--margin);
+    background:rgba(196,69,59,0.06);
+    color:var(--margin);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .ownerToggle.unlocked{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--paper);
+  }
+  .ownerToggle svg{width:16px;height:16px;}
+  .viewerNote{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    color:#8a7a58;
+    margin:0 0 12px;
+  }
+
+  .pinModal{
+    position:absolute; inset:0;
+    background:rgba(32,40,60,0.35);
+    display:flex;align-items:center;justify-content:center;
+    z-index:10;
+    padding:24px;
+  }
+  .pinModalInner{
+    background:var(--paper);
+    border-radius:10px;
+    box-shadow:0 14px 30px rgba(0,0,0,0.35);
+    padding:26px 22px;
+    display:flex;flex-direction:column;align-items:center;
+    gap:12px;
+    text-align:center;
+    width:100%;
+    max-width:240px;
+  }
+  .pinModalInner svg{width:38px;height:38px;color:var(--margin);}
+  .pinModalInner h3{font-family:'Kalam',cursive;font-size:22px;margin:0;}
+  .pinModalInner p{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7994;margin:0;}
   .pin-input{
     font-family:'JetBrains Mono',monospace;
     font-size:20px;
     letter-spacing:8px;
     text-align:center;
-    width:150px;
+    width:140px;
     padding:8px 4px;
     border:none;
     border-bottom:2px solid var(--margin);
@@ -232,7 +273,7 @@
     outline:none;
   }
   .lockBtn{
-    margin-top:6px;
+    margin-top:2px;
     font-family:'JetBrains Mono',monospace;
     font-size:12px;
     letter-spacing:1px;
@@ -292,6 +333,7 @@
     padding:20px 0;
   }
 
+  /* ===== NAV ===== */
   .navBar{
     position:absolute;
     bottom:14px; left:0; right:0;
@@ -338,6 +380,7 @@
   <div class="pages-viewport">
     <div class="pages-track" id="track">
 
+      <!-- PAGE 1 -->
       <div class="page">
         <div class="sticky">MY<br>NOTES</div>
         <p class="eyebrow">student file · page 01</p>
@@ -358,6 +401,7 @@
         </div>
       </div>
 
+      <!-- PAGE 2 -->
       <div class="page">
         <p class="eyebrow">skills &amp; activities · page 02</p>
         <h2 class="pageTitle">What I'm learning</h2>
@@ -381,22 +425,32 @@
         </div>
       </div>
 
+      <!-- PAGE 3 -->
       <div class="page" id="albumPage">
-        <p class="eyebrow">private album · page 03</p>
-        <h2 class="pageTitle">My Photos</h2>
-
-        <div class="lockScreen" id="lockScreen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-          <h3 id="lockTitle">Set a PIN</h3>
-          <p id="lockDesc">This album is just for you. Set a 4-digit PIN so no one else can open it.</p>
-          <input type="password" class="pin-input" id="pinInput" maxlength="4" inputmode="numeric" placeholder="••••">
-          <button class="lockBtn" id="lockBtn">Save PIN</button>
-          <div class="lockErr" id="lockErr"></div>
-          <button class="lockHint" id="resetPin" style="display:none;">forgot PIN? reset album</button>
+        <p class="eyebrow">photo album · page 03</p>
+        <div class="albumHead">
+          <h2 class="pageTitle">My Photos</h2>
+          <button class="ownerToggle" id="ownerToggle" title="Owner access">
+            <svg id="lockIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          </button>
         </div>
+        <p class="viewerNote" id="viewerNote">Only Raguram can add or remove photos here.</p>
 
-        <div class="albumGrid" id="albumGrid" style="display:none;"></div>
+        <div class="albumGrid" id="albumGrid"></div>
         <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
+
+        <div class="pinModal" id="pinModal" style="display:none;">
+          <div class="pinModalInner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+            <h3 id="lockTitle">Set a PIN</h3>
+            <p id="lockDesc">Only you should know this. It unlocks the add / remove controls.</p>
+            <input type="password" class="pin-input" id="pinInput" maxlength="4" inputmode="numeric" placeholder="••••">
+            <button class="lockBtn" id="lockBtn">Save PIN</button>
+            <div class="lockErr" id="lockErr"></div>
+            <button class="lockHint" id="cancelPin">cancel</button>
+            <button class="lockHint" id="resetPin" style="display:none;">forgot PIN? reset album</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -443,6 +497,7 @@
     if(e.key==='ArrowRight') goTo(current+1);
   });
 
+  // swipe support
   let touchStartX = null;
   const viewport = document.querySelector('.pages-viewport');
   viewport.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; });
@@ -456,37 +511,29 @@
 
   render();
 
+  // ===== ALBUM / OWNER PIN LOGIC =====
+  // Photos are visible to anyone who opens this page.
+  // The "+" add tile and the delete (×) buttons only appear after the
+  // owner unlocks with their PIN. Owner mode resets on reload/lock,
+  // so a viewer who opens the file never sees the controls.
   const PIN_KEY = 'raguram_album_pin';
   const PHOTOS_KEY = 'raguram_album_photos';
 
-  const lockScreen = document.getElementById('lockScreen');
+  const ownerToggle = document.getElementById('ownerToggle');
+  const lockIcon = document.getElementById('lockIcon');
+  const viewerNote = document.getElementById('viewerNote');
+  const pinModal = document.getElementById('pinModal');
   const lockTitle = document.getElementById('lockTitle');
   const lockDesc = document.getElementById('lockDesc');
   const pinInput = document.getElementById('pinInput');
   const lockBtn = document.getElementById('lockBtn');
   const lockErr = document.getElementById('lockErr');
   const resetPin = document.getElementById('resetPin');
+  const cancelPin = document.getElementById('cancelPin');
   const albumGrid = document.getElementById('albumGrid');
   const fileInput = document.getElementById('fileInput');
 
-  let mode = localStorage.getItem(PIN_KEY) ? 'enter' : 'create';
-
-  function setupLockUI(){
-    if(mode==='create'){
-      lockTitle.textContent = 'Set a PIN';
-      lockDesc.textContent = 'This album is just for you. Set a 4-digit PIN so no one else can open it.';
-      lockBtn.textContent = 'Save PIN';
-      resetPin.style.display = 'none';
-    } else {
-      lockTitle.textContent = 'Enter PIN';
-      lockDesc.textContent = 'Enter your 4-digit PIN to view your photos.';
-      lockBtn.textContent = 'Unlock';
-      resetPin.style.display = 'inline-block';
-    }
-    pinInput.value = '';
-    lockErr.textContent = '';
-  }
-  setupLockUI();
+  let isOwner = false;
 
   function getPhotos(){
     try{ return JSON.parse(localStorage.getItem(PHOTOS_KEY) || '[]'); }
@@ -495,37 +542,45 @@
   function savePhotos(arr){
     localStorage.setItem(PHOTOS_KEY, JSON.stringify(arr));
   }
+
   function renderAlbum(){
     const photos = getPhotos();
     albumGrid.innerHTML = '';
-    const addTile = document.createElement('div');
-    addTile.className = 'addTile';
-    addTile.innerHTML = '<span>+</span>';
-    addTile.addEventListener('click', ()=>fileInput.click());
-    albumGrid.appendChild(addTile);
+
+    if(isOwner){
+      const addTile = document.createElement('div');
+      addTile.className = 'addTile';
+      addTile.innerHTML = '<span>+</span>';
+      addTile.addEventListener('click', ()=>fileInput.click());
+      albumGrid.appendChild(addTile);
+    }
 
     if(photos.length === 0){
       const note = document.createElement('div');
       note.className = 'emptyNote';
-      note.textContent = 'No photos yet — tap + to add one';
+      note.textContent = isOwner ? 'No photos yet — tap + to add one' : 'No photos yet';
       albumGrid.appendChild(note);
     }
+
     photos.forEach((src, idx)=>{
       const p = document.createElement('div');
       p.className = 'polaroid';
-      p.innerHTML = `<img src="${src}"><button class="del" data-idx="${idx}">×</button>`;
+      p.innerHTML = `<img src="${src}">` + (isOwner ? `<button class="del" data-idx="${idx}">×</button>` : '');
       albumGrid.appendChild(p);
     });
-    albumGrid.querySelectorAll('.del').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const idx = parseInt(btn.dataset.idx);
-        const arr = getPhotos();
-        arr.splice(idx,1);
-        savePhotos(arr);
-        renderAlbum();
+
+    if(isOwner){
+      albumGrid.querySelectorAll('.del').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const idx = parseInt(btn.dataset.idx);
+          const arr = getPhotos();
+          arr.splice(idx,1);
+          savePhotos(arr);
+          renderAlbum();
+        });
       });
-    });
+    }
   }
 
   fileInput.addEventListener('change', ()=>{
@@ -548,11 +603,45 @@
     fileInput.value = '';
   });
 
-  function unlock(){
-    lockScreen.style.display = 'none';
-    albumGrid.style.display = 'grid';
+  function setOwnerState(on){
+    isOwner = on;
+    ownerToggle.classList.toggle('unlocked', on);
+    viewerNote.textContent = on
+      ? 'Owner mode — you can add and remove photos.'
+      : 'Only Raguram can add or remove photos here.';
     renderAlbum();
   }
+
+  function openPinModal(){
+    const mode = localStorage.getItem(PIN_KEY) ? 'enter' : 'create';
+    if(mode==='create'){
+      lockTitle.textContent = 'Set a PIN';
+      lockDesc.textContent = 'Only you should know this. It unlocks the add / remove controls.';
+      lockBtn.textContent = 'Save PIN';
+      resetPin.style.display = 'none';
+    } else {
+      lockTitle.textContent = 'Enter PIN';
+      lockDesc.textContent = 'Enter your PIN to add or remove photos.';
+      lockBtn.textContent = 'Unlock';
+      resetPin.style.display = 'inline-block';
+    }
+    pinInput.value = '';
+    lockErr.textContent = '';
+    pinModal.style.display = 'flex';
+    pinInput.focus();
+  }
+  function closePinModal(){
+    pinModal.style.display = 'none';
+  }
+
+  ownerToggle.addEventListener('click', ()=>{
+    if(isOwner){
+      setOwnerState(false);
+    } else {
+      openPinModal();
+    }
+  });
+  cancelPin.addEventListener('click', closePinModal);
 
   lockBtn.addEventListener('click', ()=>{
     const val = pinInput.value.trim();
@@ -560,13 +649,16 @@
       lockErr.textContent = 'Enter exactly 4 digits';
       return;
     }
+    const mode = localStorage.getItem(PIN_KEY) ? 'enter' : 'create';
     if(mode==='create'){
       localStorage.setItem(PIN_KEY, val);
-      unlock();
+      closePinModal();
+      setOwnerState(true);
     } else {
       const stored = localStorage.getItem(PIN_KEY);
       if(val === stored){
-        unlock();
+        closePinModal();
+        setOwnerState(true);
       } else {
         lockErr.textContent = 'Wrong PIN, try again';
         pinInput.value = '';
@@ -579,11 +671,13 @@
     if(confirm('Resetting will remove your PIN and all saved photos on this device. Continue?')){
       localStorage.removeItem(PIN_KEY);
       localStorage.removeItem(PHOTOS_KEY);
-      mode = 'create';
-      setupLockUI();
+      closePinModal();
+      setOwnerState(false);
     }
   });
+
+  renderAlbum();
 })();
 </script>
 </body>
-</html>
+</html>   
