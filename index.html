@@ -26,6 +26,7 @@
     font-family:'Space Mono', monospace;
     display:flex;align-items:center;justify-content:center;
     min-height:100vh;
+    min-height:100dvh;
     overflow:hidden;
     color:var(--ink);
   }
@@ -34,7 +35,8 @@
   .book{
     position:relative;
     width:min(92vw, 480px);
-    height:min(88vh, 780px);
+    height:min(82vh, 720px);
+    height:min(80dvh, 720px);
     background:var(--cover);
     border-radius:10px;
     box-shadow: 0 30px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(203,160,90,0.15);
@@ -79,10 +81,10 @@
     width:33.3333%;
     height:100%;
     position:relative;
-    padding:30px 22px 60px 34px;
+    padding:26px 22px 66px 34px;
     background:
       repeating-linear-gradient(var(--paper) 0 31px, var(--rule) 31px 32px);
-    overflow:hidden;
+    overflow-y:auto;
   }
   .page::before{
     content:"";
@@ -299,13 +301,92 @@
   }
   .polaroid{
     background:#fff;
-    padding:8px 8px 24px;
+    padding:8px 8px 10px;
     box-shadow:0 6px 14px rgba(0,0,0,0.25);
     position:relative;
     transform:rotate(-2deg);
   }
   .polaroid:nth-child(even){transform:rotate(2deg);}
   .polaroid img{width:100%;height:90px;object-fit:cover;display:block;background:#ddd;cursor:pointer;}
+  .polaroid .capTitle{
+    font-family:'Kalam',cursive;
+    font-size:13px;
+    color:var(--ink);
+    margin:6px 2px 0;
+    line-height:1.15;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .polaroid .capDetail{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;
+    color:#8a7a58;
+    margin:2px 2px 0;
+    line-height:1.3;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .polaroid .edit{
+    position:absolute;top:-8px;left:-8px;
+    width:20px;height:20px;border-radius:50%;
+    background:var(--ink);color:var(--paper);border:none;
+    font-size:10px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .captionModalInner{
+    background:var(--paper);
+    border-radius:10px;
+    box-shadow:0 14px 30px rgba(0,0,0,0.35);
+    padding:22px 20px;
+    display:flex;flex-direction:column;
+    gap:10px;
+    width:100%;
+    max-width:280px;
+  }
+  .captionModalInner h3{font-family:'Kalam',cursive;font-size:20px;margin:0;text-align:center;}
+  .captionModalInner label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#6b7994;
+    margin-bottom:-4px;
+  }
+  .captionModalInner input[type="text"],
+  .captionModalInner textarea{
+    font-family:'Kalam',cursive;
+    font-size:16px;
+    color:var(--ink);
+    border:none;
+    border-bottom:2px solid var(--rule);
+    background:transparent;
+    outline:none;
+    padding:4px 2px;
+    resize:none;
+  }
+  .captionModalInner textarea{font-family:'Space Mono',monospace;font-size:12px;min-height:56px;}
+  .captionBtnRow{display:flex;gap:10px;justify-content:center;margin-top:6px;}
+
+  .photoViewer .capTitle{
+    font-family:'Kalam',cursive;
+    font-size:22px;
+    color:var(--paper);
+    text-align:center;
+    margin:0;
+  }
+  .photoViewer .capDetail{
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    color:#c9bd9e;
+    text-align:center;
+    margin:-8px 0 0;
+    max-width:320px;
+    line-height:1.5;
+  }
 
   .photoViewer{
     position:fixed; inset:0;
@@ -506,10 +587,27 @@
   <div class="pageNum" id="pageNum">01 / 03</div>
 </div>
 
+<div class="pinModal" id="captionModal" style="display:none;">
+  <div class="captionModalInner">
+    <h3 id="captionModalTitle">Add a caption</h3>
+    <label for="capTitleInput">Title</label>
+    <input type="text" id="capTitleInput" maxlength="40" placeholder="e.g. College Day">
+    <label for="capDetailInput">Detail</label>
+    <textarea id="capDetailInput" maxlength="160" placeholder="Add a short note about this photo..."></textarea>
+    <div class="captionBtnRow">
+      <button class="lockHint" id="capSkip">skip</button>
+      <button class="lockBtn" id="capSave">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="photoViewer" id="photoViewer" style="display:none;">
   <img id="photoViewerImg" src="" alt="photo">
+  <h3 class="capTitle" id="pvTitle"></h3>
+  <p class="capDetail" id="pvDetail"></p>
   <div class="photoViewerBtns">
     <button class="pvBtn" id="pvClose">Close</button>
+    <button class="pvBtn" id="pvEdit" style="display:none;">Edit caption</button>
     <button class="pvBtn danger" id="pvRemove" style="display:none;">Remove photo</button>
   </div>
 </div>
@@ -572,94 +670,4 @@
   const lockTitle = document.getElementById('lockTitle');
   const lockDesc = document.getElementById('lockDesc');
   const pinInput = document.getElementById('pinInput');
-  const lockBtn = document.getElementById('lockBtn');
-  const lockErr = document.getElementById('lockErr');
-  const resetPin = document.getElementById('resetPin');
-  const cancelPin = document.getElementById('cancelPin');
-  const albumGrid = document.getElementById('albumGrid');
-  const fileInput = document.getElementById('fileInput');
-  const photoViewer = document.getElementById('photoViewer');
-  const photoViewerImg = document.getElementById('photoViewerImg');
-  const pvClose = document.getElementById('pvClose');
-  const pvRemove = document.getElementById('pvRemove');
-
-  let isOwner = false;
-  let viewerIdx = null;
-
-  function getPhotos(){
-    try{ return JSON.parse(localStorage.getItem(PHOTOS_KEY) || '[]'); }
-    catch(e){ return []; }
-  }
-  function savePhotos(arr){
-    localStorage.setItem(PHOTOS_KEY, JSON.stringify(arr));
-  }
-
-  function openViewer(idx){
-    const photos = getPhotos();
-    if(!photos[idx]) return;
-    viewerIdx = idx;
-    photoViewerImg.src = photos[idx];
-    pvRemove.style.display = isOwner ? 'inline-block' : 'none';
-    photoViewer.style.display = 'flex';
-  }
-  function closeViewer(){
-    photoViewer.style.display = 'none';
-    photoViewerImg.src = '';
-    viewerIdx = null;
-  }
-  pvClose.addEventListener('click', closeViewer);
-  photoViewer.addEventListener('click', (e)=>{ if(e.target === photoViewer) closeViewer(); });
-  pvRemove.addEventListener('click', ()=>{
-    if(viewerIdx === null) return;
-    const arr = getPhotos();
-    arr.splice(viewerIdx, 1);
-    savePhotos(arr);
-    closeViewer();
-    renderAlbum();
-  });
-
-  function renderAlbum(){
-    const photos = getPhotos();
-    albumGrid.innerHTML = '';
-
-    if(isOwner){
-      const addTile = document.createElement('div');
-      addTile.className = 'addTile';
-      addTile.innerHTML = '<span>+</span>';
-      addTile.addEventListener('click', ()=>fileInput.click());
-      albumGrid.appendChild(addTile);
-    }
-
-    if(photos.length === 0){
-      const note = document.createElement('div');
-      note.className = 'emptyNote';
-      note.textContent = isOwner ? 'No photos yet — tap + to add one' : 'No photos yet';
-      albumGrid.appendChild(note);
-    }
-
-    photos.forEach((src, idx)=>{
-      const p = document.createElement('div');
-      p.className = 'polaroid';
-      p.innerHTML = `<img src="${src}" data-idx="${idx}">` + (isOwner ? `<button class="del" data-idx="${idx}">×</button>` : '');
-      albumGrid.appendChild(p);
-    });
-
-    albumGrid.querySelectorAll('.polaroid img').forEach(img=>{
-      img.addEventListener('click', ()=>openViewer(parseInt(img.dataset.idx)));
-    });
-
-    if(isOwner){
-      albumGrid.querySelectorAll('.del').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          e.stopPropagation();
-          const idx = parseInt(btn.dataset.idx);
-          const arr = getPhotos();
-          arr.splice(idx,1);
-          savePhotos(arr);
-          renderAlbum();
-        });
-      });
-    }
-  }
-
-  fileInput.addEven
+  const lockBtn = document.getElementB
