@@ -308,20 +308,22 @@
   .polaroid img{width:100%;height:90px;object-fit:cover;display:block;background:#ddd;cursor:pointer;}
 
   .photoViewer{
-    position:absolute; inset:0;
-    background:rgba(20,16,10,0.92);
+    position:fixed; inset:0;
+    width:100vw; height:100vh; height:100dvh;
+    background:#0c0906;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:16px;
-    z-index:20;
-    padding:26px;
+    gap:18px;
+    z-index:1000;
+    padding:20px;
   }
   .photoViewer img{
     max-width:100%;
-    max-height:65%;
+    max-height:80vh; max-height:80dvh;
+    width:auto; height:auto;
+    object-fit:contain;
     border-radius:4px;
     box-shadow:0 12px 30px rgba(0,0,0,0.5);
-    background:#fff;
-    padding:8px;
+    background:#000;
   }
   .photoViewerBtns{display:flex;gap:12px;}
   .pvBtn{
@@ -487,13 +489,6 @@
           </div>
         </div>
 
-        <div class="photoViewer" id="photoViewer" style="display:none;">
-          <img id="photoViewerImg" src="" alt="photo">
-          <div class="photoViewerBtns">
-            <button class="pvBtn" id="pvClose">Close</button>
-            <button class="pvBtn danger" id="pvRemove" style="display:none;">Remove photo</button>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -509,6 +504,14 @@
     <button class="navBtn" id="nextBtn">›</button>
   </div>
   <div class="pageNum" id="pageNum">01 / 03</div>
+</div>
+
+<div class="photoViewer" id="photoViewer" style="display:none;">
+  <img id="photoViewerImg" src="" alt="photo">
+  <div class="photoViewerBtns">
+    <button class="pvBtn" id="pvClose">Close</button>
+    <button class="pvBtn danger" id="pvRemove" style="display:none;">Remove photo</button>
+  </div>
 </div>
 
 <script>
@@ -659,5 +662,4 @@
     }
   }
 
-  fileInput.addEventListener('change', ()=>{
-    con
+  fileInput.addEven
