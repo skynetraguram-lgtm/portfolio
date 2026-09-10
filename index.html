@@ -4,1516 +4,605 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Raguram.R — Shinobi Record</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>Raguram.R | Shinobi Record</title>
 
 <style>
-:root{
-  --paper:#efe3c2;
-  --paper-dark:#dfcda2;
-  --ink:#171717;
-  --rule:#b9a77b;
-  --margin:#c63d2f;
-
-  --cover:#17191c;
-  --cover-2:#292c30;
-
-  --orange:#e86f20;
-  --orange-dark:#a84413;
-
-  --red:#b82c24;
-  --leaf:#536f3a;
-
-  --gold:#d19a35;
-  --chakra:#f28b24;
-
-  --shadow:rgba(0,0,0,0.45);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-*{
-  box-sizing:border-box;
+body {
+    font-family: Arial, sans-serif;
+    background: #151515;
+    color: #222;
+    overflow-x: hidden;
 }
 
-html,
-body{
-  margin:0;
-  padding:0;
-  height:100%;
+/* MAIN */
+.book {
+    width: 94%;
+    max-width: 700px;
+    margin: 40px auto;
+    background: #222;
+    padding: 24px;
+    border-radius: 20px;
 }
 
-body{
-  background:
-    radial-gradient(
-      ellipse at top,
-      #3b342d 0%,
-      #171615 65%,
-      #090909 100%
-    );
-
-  font-family:'Space Mono',monospace;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  min-height:100vh;
-  min-height:100dvh;
-
-  overflow:hidden;
-
-  color:var(--ink);
+/* PAGE AREA */
+.viewport {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
-
-/* =========================================================
-   BOOK
-========================================================= */
-
-.book{
-  position:relative;
-
-  width:min(92vw,480px);
-  height:min(82vh,720px);
-  height:min(80dvh,720px);
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--cover-2),
-      var(--cover)
-    );
-
-  border-radius:10px;
-
-  box-shadow:
-    0 30px 60px rgba(0,0,0,0.65),
-    0 0 0 1px rgba(232,111,32,0.2);
-
-  padding:14px 14px 14px 26px;
-
-  display:flex;
-
-  overflow:hidden;
+.track {
+    display: flex;
+    width: 300%;
+    transition: transform 0.5s ease;
 }
 
+/* EACH PAGE */
+.page {
+    width: 33.3333%;
+    flex-shrink: 0;
 
-/* =========================================================
-   SPINE
-========================================================= */
+    min-height: 700px;
+    padding: 45px 30px;
 
-.spine{
-  position:absolute;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #f1e4bd 0px,
+            #f1e4bd 48px,
+            #c9bd99 49px,
+            #f1e4bd 50px
+        );
 
-  left:0;
-  top:0;
-  bottom:0;
-
-  width:26px;
-
-  background:
-    linear-gradient(
-      180deg,
-      var(--cover-2),
-      #111315
-    );
-
-  border-radius:10px 0 0 10px;
-
-  display:flex;
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:space-evenly;
-
-  padding:22px 0;
+    border-radius: 10px;
+    position: relative;
 }
 
-.ring{
-  width:11px;
-  height:11px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle at 35% 35%,
-      #f3dca3,
-      var(--gold) 60%,
-      #6d5121 100%
-    );
-
-  box-shadow:
-    inset 0 0 2px rgba(0,0,0,0.5),
-    0 1px 2px rgba(0,0,0,0.7);
+/* RED NOTEBOOK LINE */
+.page::before {
+    content: "";
+    position: absolute;
+    left: 35px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #c9574d;
+    opacity: 0.7;
 }
 
-
-/* =========================================================
-   PAGE VIEWPORT
-========================================================= */
-
-.pages-viewport{
-  position:relative;
-
-  flex:1;
-
-  margin-left:14px;
-
-  border-radius:6px;
-
-  overflow:hidden;
-
-  background:var(--paper);
-
-  box-shadow:
-    inset 0 0 40px rgba(70,45,15,0.25);
-
-  touch-action:pan-y;
+/* TEXT */
+.content {
+    position: relative;
+    z-index: 2;
+    margin-left: 25px;
 }
 
-.pages-track{
-  display:flex;
-
-  width:300%;
-  height:100%;
-
-  transition:
-    transform 0.55s cubic-bezier(.65,.05,.36,1);
+.small {
+    color: #a52d27;
+    letter-spacing: 3px;
+    font-size: 13px;
+    margin-bottom: 20px;
 }
 
-
-/* =========================================================
-   PAGE
-========================================================= */
-
-.page{
-  width:33.3333%;
-  height:100%;
-
-  position:relative;
-
-  padding:26px 22px 66px 34px;
-
-  background:
-    repeating-linear-gradient(
-      var(--paper) 0 31px,
-      var(--rule) 31px 32px
-    );
-
-  overflow-y:auto;
+h1 {
+    font-size: 42px;
+    margin-bottom: 25px;
 }
 
-.page::before{
-  content:"";
-
-  position:absolute;
-
-  left:22px;
-  top:0;
-  bottom:0;
-
-  width:2px;
-
-  background:var(--margin);
-
-  opacity:0.55;
+h2 {
+    font-size: 30px;
+    color: #a52d27;
+    margin-bottom: 25px;
 }
 
-.page::after{
-  content:"";
+h3 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #555;
+    letter-spacing: 2px;
+}
 
-  position:absolute;
+p {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
 
-  inset:0;
+/* CARDS */
+.card {
+    border: 2px solid #9a8860;
+    padding: 18px;
+    margin: 18px 0;
+    background: rgba(255,255,255,0.2);
+}
 
-  pointer-events:none;
+.skill {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    background: #e86f20;
+    color: white;
+    border-radius: 8px;
+}
 
-  background:
-    radial-gradient(
-      circle at 100% 0%,
-      rgba(0,0,0,0.08),
-      transparent 40%
+/* CHAKRA */
+.bar {
+    height: 20px;
+    border: 2px solid #76694e;
+    margin-top: 10px;
+}
+
+.fill {
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #b83b20,
+        #f39c12
     );
 }
 
-
-/* =========================================================
-   LEAF SYMBOL
-========================================================= */
-
-.leaf-symbol{
-  position:absolute;
-
-  right:22px;
-  top:20px;
-
-  width:58px;
-  height:58px;
-
-  border:3px solid var(--orange-dark);
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  color:var(--orange-dark);
-
-  font-family:'Kalam',cursive;
-
-  font-size:30px;
-
-  transform:rotate(-8deg);
-
-  box-shadow:
-    inset 0 0 8px rgba(168,68,19,0.2);
-}
-
-.leaf-symbol::after{
-  content:"";
-
-  position:absolute;
-
-  width:28px;
-  height:4px;
-
-  background:var(--orange-dark);
-
-  transform:rotate(-35deg);
-
-  opacity:0.8;
-}
-
-
-/* =========================================================
-   TEXT
-========================================================= */
-
-.eyebrow{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:11px;
-
-  letter-spacing:2px;
-
-  text-transform:uppercase;
-
-  color:var(--red);
-
-  font-weight:600;
-
-  margin:0 0 6px;
-}
-
-h1.name{
-  font-family:'Kalam',cursive;
-
-  font-size:44px;
-
-  line-height:1.05;
-
-  margin:0 0 4px;
-
-  color:var(--ink);
-
-  transform:rotate(-1deg);
-
-  text-shadow:
-    1px 1px 0 rgba(0,0,0,0.08);
-}
-
-.stamp{
-  display:inline-block;
-
-  margin-top:14px;
-
-  padding:8px 12px;
-
-  border:2px solid var(--red);
-
-  border-radius:4px;
-
-  color:var(--red);
-
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:11px;
-
-  letter-spacing:1px;
-
-  transform:rotate(-3deg);
-
-  background:
-    rgba(198,61,47,0.05);
-}
-
-.field{
-  margin-top:22px;
-}
-
-.field .label{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:10px;
-
-  text-transform:uppercase;
-
-  letter-spacing:1.5px;
-
-  color:#6b624d;
-}
-
-.field .value{
-  font-family:'Kalam',cursive;
-
-  font-size:22px;
-
-  color:var(--ink);
-
-  margin-top:2px;
-}
-
-
-/* =========================================================
-   STICKY
-========================================================= */
-
-.sticky{
-  position:absolute;
-
-  right:18px;
-  top:92px;
-
-  width:72px;
-  height:72px;
-
-  background:var(--orange);
-
-  transform:rotate(6deg);
-
-  box-shadow:
-    0 4px 8px rgba(0,0,0,0.25);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  font-family:'Kalam',cursive;
-
-  font-size:12px;
-
-  color:#30170b;
-
-  text-align:center;
-
-  opacity:0.92;
-}
-
-
-/* =========================================================
-   CHAKRA BAR
-========================================================= */
-
-.chakra-box{
-  margin-top:28px;
-
-  border:1.5px solid #8d7952;
-
-  padding:12px;
-
-  background:
-    rgba(232,111,32,0.06);
-
-  transform:rotate(-0.5deg);
-}
-
-.chakra-title{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:10px;
-
-  letter-spacing:1.5px;
-
-  color:var(--red);
-
-  margin-bottom:8px;
-}
-
-.chakra-bar{
-  width:100%;
-  height:9px;
-
-  border:1px solid #806d48;
-
-  background:#d6c59c;
-
-  overflow:hidden;
-}
-
-.chakra-fill{
-  width:78%;
-  height:100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--orange-dark),
-      var(--orange),
-      #f4b13d
-    );
-
-  animation:chakraPulse 2s infinite alternate;
-}
-
-@keyframes chakraPulse{
-  from{
-    width:72%;
-  }
-
-  to{
-    width:84%;
-  }
-}
-
-
-/* =========================================================
-   PAGE TITLES
-========================================================= */
-
-h2.pageTitle{
-  font-family:'Kalam',cursive;
-
-  font-size:30px;
-
-  margin:0 0 18px;
-
-  color:var(--ink);
-
-  transform:rotate(-0.6deg);
-}
-
-.section-label{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:11px;
-
-  letter-spacing:1.5px;
-
-  text-transform:uppercase;
-
-  color:var(--red);
-
-  margin:18px 0 8px;
-
-  font-weight:600;
-}
-
-
-/* =========================================================
-   CHIPS
-========================================================= */
-
-.chips{
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:8px;
-}
-
-.chip{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:12px;
-
-  padding:6px 10px;
-
-  border:1.5px dashed #8a7a58;
-
-  border-radius:16px;
-
-  color:var(--ink);
-
-  background:
-    rgba(232,111,32,0.07);
-}
-
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badgeRow{
-  display:flex;
-
-  gap:10px;
-
-  flex-wrap:wrap;
-}
-
-.badge{
-  width:64px;
-  height:64px;
-
-  border-radius:50%;
-
-  border:2px solid var(--red);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  text-align:center;
-
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:9px;
-
-  font-weight:700;
-
-  color:var(--red);
-
-  letter-spacing:0.5px;
-
-  transform:rotate(-4deg);
-
-  flex-shrink:0;
-}
-
-.badge:nth-child(2){
-  transform:rotate(3deg);
-}
-
-.badge:nth-child(3){
-  transform:rotate(-2deg);
-}
-
-
-/* =========================================================
-   NINJA RANK
-========================================================= */
-
-.rank-card{
-  margin-top:24px;
-
-  padding:12px;
-
-  border-left:4px solid var(--orange);
-
-  background:
-    rgba(232,111,32,0.08);
-
-  font-family:'Kalam',cursive;
-
-  font-size:20px;
-}
-
-.rank-card small{
-  display:block;
-
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:9px;
-
-  letter-spacing:1px;
-
-  color:#71654b;
-
-  margin-bottom:3px;
-}
-
-
-/* =========================================================
-   ALBUM
-========================================================= */
-
-.albumHead{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  margin-bottom:16px;
-}
-
-.albumHead h2.pageTitle{
-  margin:0;
-}
-
-.ownerToggle{
-  width:34px;
-  height:34px;
-
-  border-radius:50%;
-
-  border:1.5px solid var(--red);
-
-  background:
-    rgba(198,61,47,0.06);
-
-  color:var(--red);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
-  flex-shrink:0;
-
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-}
-
-.ownerToggle.unlocked{
-  background:var(--ink);
-
-  border-color:var(--ink);
-
-  color:var(--paper);
-}
-
-.ownerToggle svg{
-  width:16px;
-  height:16px;
-}
-
-.viewerNote{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:10px;
-
-  color:#8a7a58;
-
-  margin:0 0 12px;
-}
-
-
-/* =========================================================
-   ALBUM GRID
-========================================================= */
-
-.albumGrid{
-  display:grid;
-
-  grid-template-columns:repeat(2,1fr);
-
-  gap:14px;
-
-  margin-top:6px;
-
-  max-height:calc(100% - 90px);
-
-  overflow-y:auto;
-
-  padding-bottom:10px;
-}
-
-.polaroid{
-  background:#fff;
-
-  padding:8px 8px 10px;
-
-  box-shadow:
-    0 6px 14px rgba(0,0,0,0.25);
-
-  position:relative;
-
-  transform:rotate(-2deg);
-}
-
-.polaroid:nth-child(even){
-  transform:rotate(2deg);
-}
-
-.polaroid img{
-  width:100%;
-  height:90px;
-
-  object-fit:cover;
-
-  display:block;
-
-  background:#ddd;
-
-  cursor:pointer;
-}
-
-.polaroid .capTitle{
-  font-family:'Kalam',cursive;
-
-  font-size:13px;
-
-  color:var(--ink);
-
-  margin:6px 2px 0;
-
-  line-height:1.15;
-
-  white-space:nowrap;
-
-  overflow:hidden;
-
-  text-overflow:ellipsis;
-}
-
-.polaroid .capDetail{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:9px;
-
-  color:#8a7a58;
-
-  margin:2px 2px 0;
-
-  line-height:1.3;
-
-  display:-webkit-box;
-
-  -webkit-line-clamp:2;
-
-  -webkit-box-orient:vertical;
-
-  overflow:hidden;
-}
-
-
-/* =========================================================
-   EDIT / DELETE
-========================================================= */
-
-.polaroid .edit{
-  position:absolute;
-
-  top:-8px;
-  left:-8px;
-
-  width:20px;
-  height:20px;
-
-  border-radius:50%;
-
-  background:var(--ink);
-
-  color:var(--paper);
-
-  border:none;
-
-  font-size:10px;
-
-  line-height:1;
-
-  cursor:pointer;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
+/* PHOTO */
+.photo {
+    width: 100%;
+    height: 180px;
+    border: 3px dashed #a52d27;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.polaroid .del{
-  position:absolute;
-
-  top:-8px;
-  right:-8px;
-
-  width:20px;
-  height:20px;
-
-  border-radius:50%;
-
-  background:var(--red);
-
-  color:#fff;
-
-  border:none;
-
-  font-size:12px;
-
-  line-height:1;
-
-  cursor:pointer;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-}
-
-
-/* =========================================================
-   ADD TILE
-========================================================= */
-
-.addTile{
-  border:2.5px dashed #8a7a58;
-
-  border-radius:6px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:98px;
-
-  cursor:pointer;
-
-  background:
-    rgba(232,111,32,0.06);
-
-  transition:
-    background 0.2s,
-    transform 0.2s;
-}
-
-.addTile:hover{
-  background:
-    rgba(232,111,32,0.15);
-
-  transform:scale(1.02);
-}
-
-.addTile span{
-  font-family:'Kalam',cursive;
-
-  font-size:38px;
-
-  color:var(--red);
-}
-
-.emptyNote{
-  font-family:'Kalam',cursive;
-
-  font-size:14px;
-
-  color:#8a7a58;
-
-  grid-column:1 / -1;
-
-  text-align:center;
-
-  padding:20px 0;
-}
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-.pinModal{
-  position:absolute;
-
-  inset:0;
-
-  background:
-    rgba(20,18,15,0.58);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  z-index:10;
-
-  padding:24px;
-}
-
-.pinModalInner{
-  background:var(--paper);
-
-  border-radius:10px;
-
-  box-shadow:
-    0 14px 30px rgba(0,0,0,0.45);
-
-  padding:26px 22px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  gap:12px;
-
-  text-align:center;
-
-  width:100%;
-
-  max-width:240px;
-}
-
-.pinModalInner svg{
-  width:38px;
-  height:38px;
-
-  color:var(--red);
-}
-
-.pinModalInner h3{
-  font-family:'Kalam',cursive;
-
-  font-size:22px;
-
-  margin:0;
-}
-
-.pinModalInner p{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:11px;
-
-  color:#6b7994;
-
-  margin:0;
-}
-
-.pin-input{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:20px;
-
-  letter-spacing:8px;
-
-  text-align:center;
-
-  width:140px;
-
-  padding:8px 4px;
-
-  border:none;
-
-  border-bottom:2px solid var(--red);
-
-  background:transparent;
-
-  color:var(--ink);
-
-  outline:none;
-}
-
-.lockBtn{
-  margin-top:2px;
-
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:12px;
-
-  letter-spacing:1px;
-
-  text-transform:uppercase;
-
-  padding:9px 18px;
-
-  border-radius:20px;
-
-  border:none;
-
-  background:var(--ink);
-
-  color:var(--paper);
-
-  cursor:pointer;
-}
-
-.lockBtn:hover{
-  background:#30343a;
-}
-
-.lockErr{
-  font-size:11px;
-
-  color:var(--red);
-
-  font-family:'JetBrains Mono',monospace;
-
-  min-height:14px;
-}
-
-.lockHint{
-  font-size:10px;
-
-  color:#8a7a58;
-
-  font-family:'JetBrains Mono',monospace;
-
-  text-decoration:underline;
-
-  cursor:pointer;
-
-  background:none;
-
-  border:none;
-
-  padding:0;
-}
-
-
-/* =========================================================
-   CAPTION MODAL
-========================================================= */
-
-.captionModalInner{
-  background:var(--paper);
-
-  border-radius:10px;
-
-  box-shadow:
-    0 14px 30px rgba(0,0,0,0.45);
-
-  padding:22px 20px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:10px;
-
-  width:100%;
-
-  max-width:280px;
-}
-
-.captionModalInner h3{
-  font-family:'Kalam',cursive;
-
-  font-size:20px;
-
-  margin:0;
-
-  text-align:center;
-}
-
-.captionModalInner label{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:10px;
-
-  text-transform:uppercase;
-
-  letter-spacing:1px;
-
-  color:#6b7994;
-
-  margin-bottom:-4px;
-}
-
-.captionModalInner input[type="text"],
-.captionModalInner textarea{
-  font-family:'Kalam',cursive;
-
-  font-size:16px;
-
-  color:var(--ink);
-
-  border:none;
-
-  border-bottom:2px solid var(--rule);
-
-  background:transparent;
-
-  outline:none;
-
-  padding:4px 2px;
-
-  resize:none;
-}
-
-.captionModalInner textarea{
-  font-family:'Space Mono',monospace;
-
-  font-size:12px;
-
-  min-height:56px;
-}
-
-.captionBtnRow{
-  display:flex;
-
-  gap:10px;
-
-  justify-content:center;
-
-  margin-top:6px;
-}
-
-
-/* =========================================================
-   PHOTO VIEWER
-========================================================= */
-
-.photoViewer{
-  position:fixed;
-
-  inset:0;
-
-  width:100vw;
-
-  height:100vh;
-
-  height:100dvh;
-
-  background:
-    radial-gradient(
-      circle at center,
-      #25211d,
-      #0b0907 70%
-    );
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:18px;
-
-  z-index:1000;
-
-  padding:20px;
-}
-
-.photoViewer img{
-  max-width:100%;
-
-  max-height:70vh;
-
-  max-height:70dvh;
-
-  width:auto;
-
-  height:auto;
-
-  object-fit:contain;
-
-  border-radius:4px;
-
-  box-shadow:
-    0 12px 30px rgba(0,0,0,0.7);
-
-  background:#000;
-}
-
-.photoViewer .capTitle{
-  font-family:'Kalam',cursive;
-
-  font-size:22px;
-
-  color:var(--paper);
-
-  text-align:center;
-
-  margin:0;
-}
-
-.photoViewer .capDetail{
-  font-family:'Space Mono',monospace;
-
-  font-size:12px;
-
-  color:#c9bd9e;
-
-  text-align:center;
-
-  margin:-8px 0 0;
-
-  max-width:320px;
-
-  line-height:1.5;
-}
-
-.photoViewerBtns{
-  display:flex;
-
-  gap:12px;
-
-  flex-wrap:wrap;
-
-  justify-content:center;
-}
-
-.pvBtn{
-  font-family:'JetBrains Mono',monospace;
-
-  font-size:12px;
-
-  letter-spacing:0.5px;
-
-  text-transform:uppercase;
-
-  padding:9px 16px;
-
-  border-radius:20px;
-
-  border:1.5px solid var(--paper);
-
-  background:transparent;
-
-  color:var(--paper);
-
-  cursor:pointer;
-}
-
-.pvBtn:hover{
-  background:var(--paper);
-
-  color:#17120e;
-}
-
-.pvBtn.danger{
-  border-color:var(--red);
-
-  background:var(--red);
-
-  color:#fff;
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-.navBar{
-  position:absolute;
-
-  bottom:14px;
-
-  left:0;
-  right:0;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:16px;
-
-  z-index:6;
-}
-
-.navBtn{
-  width:34px;
-  height:34px;
-
-  border-radius:50%;
-
-  border:1.5px solid var(--ink);
-
-  background:var(--paper);
-
-  color:var(--ink);
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
-  font-size:14px;
-}
-
-.navBtn:disabled{
-  opacity:0.25;
-
-  cursor:default;
+/* NAVIGATION */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 }
 
-.dots{
-  display:flex;
-
-  gap:7px;
-}
-
-.dot{
-  width:7px;
-  height:7px;
-
-  border-radius:50%;
-
-  background:#c9bd9e;
-
-  cursor:pointer;
+.nav {
+    width: 55px;
+    height: 55px;
+    border: none;
+    border-radius: 50%;
+    background: #e86f20;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
 }
 
-.dot.active{
-  background:var(--red);
+.nav:disabled {
+    opacity: 0.3;
 }
-
-.pageNum{
-  position:absolute;
-
-  bottom:16px;
-  right:22px;
 
-  font-family:'Kalam',cursive;
-
-  font-size:14px;
-
-  color:#8a7a58;
+.dots {
+    display: flex;
+    gap: 10px;
 }
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
 
-.page::-webkit-scrollbar,
-.albumGrid::-webkit-scrollbar{
-  width:5px;
+.dot {
+    width: 12px;
+    height: 12px;
+    background: #777;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-.page::-webkit-scrollbar-thumb,
-.albumGrid::-webkit-scrollbar-thumb{
-  background:#9c8b64;
-
-  border-radius:10px;
+.dot.active {
+    background: #e86f20;
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:400px){
-
-  h1.name{
-    font-size:34px;
-  }
 
-  .field .value{
-    font-size:18px;
-  }
+/* MOBILE */
+@media(max-width:500px) {
 
-  .leaf-symbol{
-    width:48px;
-    height:48px;
+    .book {
+        margin: 20px auto;
+        padding: 15px;
+    }
 
-    font-size:24px;
-  }
+    .page {
+        min-height: 700px;
+        padding: 35px 20px;
+    }
 
-  .sticky{
-    width:60px;
-    height:60px;
+    h1 {
+        font-size: 34px;
+    }
 
-    font-size:10px;
-  }
+    h2 {
+        font-size: 26px;
+    }
 
-  .page{
-    padding-left:32px;
-    padding-right:18px;
-  }
+    p {
+        font-size: 18px;
+    }
 }
 </style>
 </head>
 
-
 <body>
 
-<div class="book" id="book">
+<div class="book">
 
-  <!-- SPINE -->
-  <div class="spine">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-  </div>
+    <div class="viewport" id="viewport">
+
+        <div class="track" id="track">
+
+            <!-- ================= PAGE 1 ================= -->
+
+            <section class="page">
+
+                <div class="content">
+
+                    <div class="small">
+                        SHINOBI RECORD · PAGE 01
+                    </div>
+
+                    <h1>Raguram.R</h1>
+
+                    <div class="card">
+                        <p>B.Sc Visual Communication</p>
+                    </div>
+
+                    <h3>SHINOBI RANK</h3>
+                    <p>Genin · 1st Year</p>
+
+                    <h3>VILLAGE</h3>
+                    <p>RD National College</p>
+
+                    <h3>LOCATION</h3>
+                    <p>Erode</p>
+
+                    <div class="card">
+                        <div class="small">
+                            CHAKRA RESERVE
+                        </div>
+
+                        <div class="bar">
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>SHINOBI WAY</h3>
+                        <p>
+                            Learn. Create. Improve.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
 
 
-  <div class="pages-viewport">
+            <!-- ================= PAGE 2 ================= -->
 
-    <div class="pages-track" id="track">
+            <section class="page">
+
+                <div class="content">
+
+                    <div class="small">
+                        SHINOBI RECORD · PAGE 02
+                    </div>
+
+                    <h2>My Jutsu ⚡</h2>
+
+                    <h3>JUTSU I'M LEARNING</h3>
+
+                    <div class="skill">
+                        C#
+                    </div>
+
+                    <div class="skill">
+                        Web Development
+                    </div>
 
 
-      <!-- ===================================================
-           PAGE 1
-      ==================================================== -->
+                    <h3>SHINOBI ACTIVITIES</h3>
 
-      <div class="page">
+                    <div class="card">
+                        <p>🥷 NSS</p>
+                        <p>🥷 NCC</p>
+                        <p>🥷 SCHOOL SPL</p>
+                    </div>
 
-        <div class="leaf-symbol">🍃</div>
 
-        <div class="sticky">
-          SHINOBI<br>
-          NOTES
+                    <h3>COMBAT TRAINING</h3>
+
+                    <div class="skill">
+                        Silambam
+                    </div>
+
+                    <div class="skill">
+                        Karate
+                    </div>
+
+                    <div class="skill">
+                        Boxing
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>CURRENT MISSION</h3>
+
+                        <p>
+                            Master Full Stack Development
+                            and build powerful projects.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <h3>NINJA PHILOSOPHY</h3>
+
+                        <p>
+                            "Train today. Become stronger tomorrow."
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= PAGE 3 ================= -->
+
+            <section class="page">
+
+                <div class="content">
+
+                    <div class="small">
+                        SHINOBI RECORD · PAGE 03
+                    </div>
+
+                    <h2>My Photos 📸</h2>
+
+                    <div class="card">
+
+                        <h3>SHINOBI MEMORIES</h3>
+
+                        <p>
+                            My personal photo album.
+                        </p>
+
+                    </div>
+
+                    <div class="photo">
+                        📷 PHOTO ALBUM
+                    </div>
+
+                    <div class="card">
+
+                        <p>
+                            🔒 Private Shinobi Memories
+                        </p>
+
+                        <button
+                            onclick="alert('Photo album feature coming soon!')"
+                            style="
+                            margin-top:15px;
+                            padding:12px 20px;
+                            border:0;
+                            background:#e86f20;
+                            color:white;
+                            border-radius:8px;
+                            ">
+                            OPEN ALBUM
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
         </div>
 
-        <p class="eyebrow">
-          shinobi record · page 01
-        </p>
-
-        <h1 class="name">
-          Raguram.R
-        </h1>
-
-        <span class="stamp">
-          B.SC VISUAL COMMUNICATION
-        </span>
+    </div>
 
 
-        <div class="field">
+    <!-- NAVIGATION -->
 
-          <div class="label">
-            Shinobi Rank
-          </div>
+    <div class="navigation">
 
-          <div class="value">
-            Genin • 1st Year
-          </div>
+        <button
+            class="nav"
+            id="prev">
+            ‹
+        </button>
 
-        </div>
+        <div class="dots">
 
+            <div
+                class="dot active"
+                data-page="0">
+            </div>
 
-        <div class="field">
+            <div
+                class="dot"
+                data-page="1">
+            </div>
 
-          <div class="label">
-            Village
-          </div>
-
-          <div class="value">
-            RD National College
-          </div>
+            <div
+                class="dot"
+                data-page="2">
+            </div>
 
         </div>
 
+        <button
+            class="nav"
+            id="next">
+            ›
+        </button>
 
-        <div class="field">
+    </div>
 
-          <div class="label">
-            Location
-          </div>
-
-          <div class="value">
-            Erode
-          </div>
-
-        </div>
+</div>
 
 
-        <div class="chakra-box">
+<script>
 
-          <div class="chakra-title">
-            CHAKRA RESERVE
-          </div>
+/* =========================
+   PAGE NAVIGATION
+========================= */
 
-          <div class="chakra-bar">
-            <div class="chakra-fill"></div>
-          </
+const track = document.getElementById("track");
+
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
+
+const dots = document.querySelectorAll(".dot");
+
+let currentPage = 0;
+
+
+/* SHOW PAGE */
+
+function showPage(page) {
+
+    if (page < 0) {
+        page = 0;
+    }
+
+    if (page > 2) {
+        page = 2;
+    }
+
+    currentPage = page;
+
+    track.style.transform =
+        "translateX(-" +
+        (page * 33.3333) +
+        "%)";
+
+    /* UPDATE DOTS */
+
+    dots.forEach((dot, index) => {
+
+        dot.classList.toggle(
+            "active",
+            index === currentPage
+        );
+
+    });
+
+    /* BUTTON STATE */
+
+    prev.disabled = currentPage === 0;
+
+    next.disabled = currentPage === 2;
+}
+
+
+/* NEXT BUTTON */
+
+next.addEventListener("click", function() {
+
+    showPage(currentPage + 1);
+
+});
+
+
+/* PREVIOUS BUTTON */
+
+prev.addEventListener("click", function() {
+
+    showPage(currentPage - 1);
+
+});
+
+
+/* DOTS */
+
+dots.forEach(function(dot) {
+
+    dot.addEventListener("click", function() {
+
+        showPage(
+            Number(dot.dataset.page)
+        );
+
+    });
+
+});
+
+
+/* =========================
+   SWIPE
+========================= */
+
+let startX = 0;
+let endX = 0;
+
+const viewport =
+    document.getElementById("viewport");
+
+
+viewport.addEventListener(
+    "touchstart",
+    function(event) {
+
+        startX =
+            event.touches[0].clientX;
+
+    },
+    { passive: true }
+);
+
+
+viewport.addEventListener(
+    "touchend",
+    function(event) {
+
+        endX =
+            event.changedTouches[0].clientX;
+
+        let distance =
+            startX - endX;
+
+
+        /* SWIPE LEFT */
+
+        if (distance > 50) {
+
+            showPage(
+                currentPage + 1
+            );
+
+        }
+
+
+        /* SWIPE RIGHT */
+
+        if (distance < -50) {
+
+            showPage(
+                currentPage - 1
+            );
+
+        }
+
+    },
+    { passive: true }
+);
+
+
+/* START */
+
+showPage(0);
+
+</script>
+
+</body>
+</html>
