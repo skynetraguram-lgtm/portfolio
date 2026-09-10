@@ -2,1268 +2,288 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Raguram.R | Shinobi Record</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raguram.R | Shinobi Archive</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+font-family:Arial,sans-serif;color:#fff;background:#070707;
+min-height:100vh;overflow-x:hidden;
+background-image:
+radial-gradient(circle at 50% 10%,#4b1710 0,transparent 35%),
+linear-gradient(135deg,#161616,#050505);
 }
-
-body {
-    font-family: Arial, sans-serif;
-    background: #151515;
-    color: #222;
-    overflow-x: hidden;
+.wrap{width:94%;max-width:650px;margin:20px auto}
+.header{text-align:center;margin-bottom:15px}
+.header b{color:#ff6422;font-size:14px;letter-spacing:4px}
+.header small{display:block;color:#777;margin-top:6px;letter-spacing:2px}
+.viewport{width:100%;overflow:hidden;border-radius:20px;touch-action:pan-y;box-shadow:0 20px 60px #000}
+.track{display:flex;width:300%;transition:transform .7s cubic-bezier(.22,.61,.36,1)}
+.page{
+width:33.3333%;flex-shrink:0;min-height:700px;padding:30px 23px;
+position:relative;overflow:hidden;
+background:
+radial-gradient(circle at 90% 10%,rgba(255,70,20,.16),transparent 30%),
+linear-gradient(145deg,#191919,#090909);
+border:1px solid rgba(255,80,30,.3)
 }
-
-/* BOOK */
-
-.book {
-    width: 94%;
-    max-width: 700px;
-    margin: 30px auto;
-    background: #222;
-    padding: 18px;
-    border-radius: 20px;
+.page:before{
+content:"";position:absolute;left:0;top:0;width:4px;height:100%;
+background:linear-gradient(#ff3018,#ff9a20,#7b160f);
+box-shadow:0 0 15px #ff421c
 }
-
-/* PAGE VIEW */
-
-.viewport {
-    width: 100%;
-    overflow: hidden;
-    border-radius: 12px;
-    touch-action: pan-y;
+.content{position:relative;z-index:2;margin-left:8px}
+.num{font-size:11px;color:#ff6422;letter-spacing:3px;margin-bottom:25px}
+.symbol{
+width:100px;height:100px;border:3px solid #ff6422;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+margin:0 auto 22px;font-size:45px;
+background:#100b0b;box-shadow:0 0 25px rgba(255,70,20,.5)
 }
-
-/* SLIDER */
-
-.track {
-    display: flex;
-    width: 300%;
-    transition: transform 0.65s cubic-bezier(.22,.61,.36,1);
-    will-change: transform;
+.name{text-align:center;font-size:40px;font-weight:800}
+.role{text-align:center;color:#ff6422;font-size:12px;letter-spacing:3px;margin-top:8px}
+.info{margin-top:30px;display:grid;gap:12px}
+.card{
+padding:16px;background:rgba(255,255,255,.045);
+border:1px solid rgba(255,90,30,.25);
+border-left:3px solid #ff5722;border-radius:9px
 }
-
-/* PAGE */
-
-.page {
-    width: 33.3333%;
-    flex-shrink: 0;
-
-    min-height: 700px;
-    padding: 40px 25px;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #f1e4bd 0px,
-            #f1e4bd 48px,
-            #c9bd99 49px,
-            #f1e4bd 50px
-        );
-
-    border-radius: 10px;
-
-    position: relative;
-    overflow: hidden;
+.label{font-size:10px;color:#777;letter-spacing:3px;margin-bottom:6px}
+.value{font-size:17px;font-weight:bold;line-height:1.4}
+.title{font-size:32px;font-weight:800;margin-bottom:10px}
+.desc{color:#999;line-height:1.6;font-size:14px}
+.section{font-size:10px;color:#ff6422;letter-spacing:3px;margin:25px 0 12px}
+.skills{display:flex;flex-wrap:wrap;gap:9px}
+.skill{
+padding:11px 14px;background:linear-gradient(135deg,#e84a1c,#8e2113);
+border:1px solid rgba(255,130,70,.4);border-radius:8px;font-weight:bold;font-size:14px
 }
-
-/* NOTEBOOK RED LINE */
-
-.page::before {
-    content: "";
-    position: absolute;
-
-    left: 30px;
-    top: 0;
-    bottom: 0;
-
-    width: 3px;
-
-    background: #c9574d;
-    opacity: .7;
+.mission{
+margin-top:30px;padding:22px;border-radius:12px;background:#111;
+border:1px solid rgba(255,80,20,.35)
 }
-
-/* CONTENT */
-
-.content {
-    position: relative;
-    z-index: 2;
-    margin-left: 25px;
+.mission b{display:block;color:#ff6422;font-size:10px;letter-spacing:3px;margin-bottom:9px}
+.mission p{font-size:18px;line-height:1.6;color:#eee}
+.album{text-align:center}
+.album h2{font-size:31px;margin-bottom:8px}
+.album p{color:#888;font-size:14px;line-height:1.6}
+.memory{
+height:400px;margin-top:25px;border:2px dashed rgba(255,90,30,.4);
+border-radius:15px;display:flex;align-items:center;justify-content:center;
+flex-direction:column;text-align:center;
+background:radial-gradient(circle,rgba(255,70,20,.08),transparent 65%)
 }
-
-.small {
-    color: #a52d27;
-    letter-spacing: 3px;
-    font-size: 12px;
-    margin-bottom: 20px;
+.memory span{font-size:65px;margin-bottom:20px;filter:drop-shadow(0 0 12px #f42)}
+.memory b{font-size:20px;margin-bottom:8px}
+.nav{
+display:flex;align-items:center;justify-content:space-between;margin-top:17px
 }
-
-h1 {
-    font-size: 42px;
-    margin-bottom: 25px;
+.nav button{
+width:54px;height:54px;border-radius:50%;
+border:1px solid rgba(255,100,40,.5);
+background:rgba(255,70,20,.12);color:#fff;font-size:30px
 }
-
-h2 {
-    font-size: 30px;
-    color: #a52d27;
-    margin-bottom: 25px;
+.nav button:disabled{opacity:.25}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#444}
+.dot.active{width:28px;border-radius:10px;background:#ff6422;box-shadow:0 0 10px #f52}
+.bottom{text-align:center;color:#444;font-size:9px;letter-spacing:3px;margin-top:14px}
+@media(max-width:500px){
+.wrap{width:94%;margin:15px auto}.page{min-height:690px;padding:28px 19px}
+.name{font-size:35px}.title{font-size:29px}.album h2{font-size:28px}
+.value{font-size:16px}.memory{height:370px}
 }
-
-h3 {
-    margin-top: 28px;
-    margin-bottom: 10px;
-    color: #555;
-    letter-spacing: 2px;
-}
-
-p {
-    font-size: 19px;
-    margin-bottom: 12px;
-}
-
-/* CARDS */
-
-.card {
-    border: 2px solid #9a8860;
-    padding: 18px;
-    margin: 18px 0;
-    background: rgba(255,255,255,.2);
-}
-
-/* SKILLS */
-
-.skill {
-    display: inline-block;
-    padding: 10px 14px;
-    margin: 5px;
-
-    background: #e86f20;
-    color: white;
-
-    border-radius: 8px;
-}
-
-/* CHAKRA */
-
-.bar {
-    height: 20px;
-    border: 2px solid #76694e;
-    margin-top: 10px;
-}
-
-.fill {
-    width: 80%;
-    height: 100%;
-
-    background: linear-gradient(
-        90deg,
-        #b83b20,
-        #f39c12
-    );
-}
-
-
-/* =================================================
-   PAGE 3 - PHOTO ALBUM
-================================================= */
-
-.album-title {
-    text-align: center;
-    font-size: 30px;
-    color: #a52d27;
-    margin-bottom: 8px;
-}
-
-.album-subtitle {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-
-/* PHOTO GRID */
-
-.photo-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 15px;
-
-    margin-top: 20px;
-}
-
-
-/* PHOTO FRAME */
-
-.photo-frame {
-    background: #eee4c8;
-
-    padding: 7px;
-
-    border: 1px solid #9c8c68;
-
-    box-shadow:
-        0 5px 12px rgba(0,0,0,.25);
-
-    cursor: pointer;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
-
-.photo-frame:hover {
-    transform: translateY(-4px) rotate(-1deg);
-
-    box-shadow:
-        0 10px 20px rgba(0,0,0,.3);
-}
-
-.photo-frame:nth-child(even) {
-    transform: rotate(1deg);
-}
-
-.photo-frame img {
-    width: 100%;
-    height: 150px;
-
-    object-fit: cover;
-
-    display: block;
-}
-
-
-/* EMPTY ALBUM */
-
-.empty-album {
-    text-align: center;
-
-    padding: 80px 20px;
-
-    color: #777;
-
-    border: 2px dashed #a52d27;
-}
-
-
-/* OWNER BUTTON */
-
-.owner-button {
-    display: block;
-
-    margin: 25px auto 0;
-
-    padding: 9px 14px;
-
-    border: 1px solid #9a8860;
-
-    background: transparent;
-
-    color: #555;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-}
-
-
-/* UPLOAD AREA */
-
-.owner-panel {
-    display: none;
-
-    margin-top: 20px;
-
-    padding: 15px;
-
-    border: 2px solid #a52d27;
-
-    background: rgba(255,255,255,.25);
-
-    text-align: center;
-}
-
-.owner-panel.show {
-    display: block;
-}
-
-.upload-button {
-    display: inline-block;
-
-    padding: 12px 18px;
-
-    background: #e86f20;
-
-    color: white;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    margin-top: 10px;
-}
-
-#photoInput {
-    display: none;
-}
-
-
-/* =================================================
-   FULL SCREEN PHOTO VIEWER
-================================================= */
-
-.photo-viewer {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.94);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    z-index: 9999;
-}
-
-.photo-viewer.show {
-    display: flex;
-}
-
-.photo-viewer img {
-    max-width: 94%;
-    max-height: 88%;
-
-    object-fit: contain;
-
-    border-radius: 5px;
-
-    box-shadow:
-        0 0 30px rgba(255,255,255,.15);
-
-    animation: zoomIn .3s ease;
-}
-
-@keyframes zoomIn {
-
-    from {
-        transform: scale(.75);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-
-/* CLOSE */
-
-.close-viewer {
-    position: absolute;
-
-    top: 20px;
-    right: 20px;
-
-    width: 45px;
-    height: 45px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.15);
-
-    color: white;
-
-    font-size: 28px;
-
-    cursor: pointer;
-}
-
-
-/* DELETE */
-
-.delete-photo {
-    display: none;
-
-    width: 100%;
-
-    margin-top: 5px;
-
-    border: none;
-
-    background: #a52d27;
-
-    color: white;
-
-    padding: 6px;
-
-    cursor: pointer;
-}
-
-.owner-mode .delete-photo {
-    display: block;
-}
-
-
-/* =================================================
-   NAVIGATION
-================================================= */
-
-.navigation {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-top: 18px;
-}
-
-.nav {
-    width: 55px;
-    height: 55px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: #e86f20;
-
-    color: white;
-
-    font-size: 30px;
-
-    cursor: pointer;
-}
-
-.nav:disabled {
-    opacity: .3;
-}
-
-.dots {
-    display: flex;
-    gap: 10px;
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-
-    background: #777;
-
-    border-radius: 50%;
-
-    cursor: pointer;
-}
-
-.dot.active {
-    background: #e86f20;
-
-    transform: scale(1.15);
-}
-
-
-/* =================================================
-   PASSWORD POPUP
-================================================= */
-
-.password-popup {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.75);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    z-index: 10000;
-}
-
-.password-popup.show {
-    display: flex;
-}
-
-.password-box {
-    width: 85%;
-    max-width: 350px;
-
-    background: #f1e4bd;
-
-    padding: 25px;
-
-    border-radius: 12px;
-
-    text-align: center;
-}
-
-.password-box h3 {
-    margin-top: 0;
-    color: #a52d27;
-}
-
-.password-box input {
-    width: 100%;
-
-    padding: 12px;
-
-    margin: 15px 0;
-
-    border: 2px solid #9a8860;
-
-    background: #fffaf0;
-
-    border-radius: 7px;
-
-    font-size: 16px;
-}
-
-.password-box button {
-    padding: 10px 18px;
-
-    border: none;
-
-    background: #e86f20;
-
-    color: white;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-}
-
-.cancel-btn {
-    margin-left: 8px;
-
-    background: #777 !important;
-}
-
-
-/* MOBILE */
-
-@media(max-width:500px) {
-
-    .book {
-        width: 94%;
-        margin: 20px auto;
-        padding: 12px;
-    }
-
-    .page {
-        min-height: 700px;
-        padding: 35px 18px;
-    }
-
-    h1 {
-        font-size: 34px;
-    }
-
-    h2 {
-        font-size: 27px;
-    }
-
-    p {
-        font-size: 18px;
-    }
-
-    .photo-frame img {
-        height: 135px;
-    }
-}
-
 </style>
 </head>
 
-
 <body>
 
+<div class="wrap">
 
-<div class="book">
+<div class="header">
+<b>SHINOBI ARCHIVE</b>
+<small>RAGURAM.R · PERSONAL RECORD</small>
+</div>
 
-    <div class="viewport" id="viewport">
+<div class="viewport" id="viewport">
+<div class="track" id="track">
 
-        <div class="track" id="track">
+<!-- PAGE 1 -->
+<section class="page">
+<div class="content">
 
+<div class="num">01 · SHINOBI PROFILE</div>
 
-            <!-- =================================================
-                 PAGE 1
-            ================================================= -->
+<div class="symbol">🍥</div>
 
-            <section class="page">
+<div class="name">Raguram.R</div>
+<div class="role">VISUAL COMMUNICATION</div>
 
-                <div class="content">
+<div class="info">
 
-                    <div class="small">
-                        SHINOBI RECORD · PAGE 01
-                    </div>
+<div class="card">
+<div class="label">EDUCATION</div>
+<div class="value">B.Sc Visual Communication</div>
+</div>
 
-                    <h1>
-                        Raguram.R
-                    </h1>
+<div class="card">
+<div class="label">YEAR</div>
+<div class="value">1st Year</div>
+</div>
 
-                    <div class="card">
-                        <p>
-                            B.Sc Visual Communication
-                        </p>
-                    </div>
+<div class="card">
+<div class="label">COLLEGE</div>
+<div class="value">RD National College of Arts & Science</div>
+</div>
 
-                    <h3>
-                        SHINOBI RANK
-                    </h3>
+<div class="card">
+<div class="label">LOCATION</div>
+<div class="value">Erode</div>
+</div>
 
-                    <p>
-                        Genin · 1st Year
-                    </p>
+</div>
+</div>
+</section>
 
-                    <h3>
-                        VILLAGE
-                    </h3>
 
-                    <p>
-                        RD National College
-                    </p>
+<!-- PAGE 2 -->
+<section class="page">
+<div class="content">
 
-                    <h3>
-                        LOCATION
-                    </h3>
+<div class="num">02 · SHINOBI SKILLS</div>
 
-                    <p>
-                        Erode
-                    </p>
+<div class="title">Shinobi Skills ⚡</div>
 
-                    <div class="card">
+<div class="desc">
+Every shinobi has a path. This is Raguram's journey of learning and training.
+</div>
 
-                        <div class="small">
-                            CHAKRA RESERVE
-                        </div>
+<div class="section">TECHNOLOGY</div>
 
-                        <div class="bar">
-                            <div class="fill"></div>
-                        </div>
+<div class="skills">
+<div class="skill">C#</div>
+<div class="skill">Web Development</div>
+</div>
 
-                    </div>
+<div class="section">ACTIVITIES</div>
 
-                    <div class="card">
+<div class="skills">
+<div class="skill">NSS</div>
+<div class="skill">NCC</div>
+<div class="skill">SCHOOL SPL</div>
+</div>
 
-                        <h3>
-                            SHINOBI WAY
-                        </h3>
+<div class="section">TRAINING</div>
 
-                        <p>
-                            Learn. Create. Improve.
-                        </p>
+<div class="skills">
+<div class="skill">Silambam</div>
+<div class="skill">Karate</div>
+<div class="skill">Boxing</div>
+</div>
 
-                    </div>
+<div class="mission">
+<b>CURRENT MISSION</b>
+<p>Keep learning. Keep creating. Keep moving forward.</p>
+</div>
 
-                </div>
+</div>
+</section>
 
-            </section>
 
+<!-- PAGE 3 -->
+<section class="page">
+<div class="content album">
 
-            <!-- =================================================
-                 PAGE 2
-            ================================================= -->
+<div class="num">03 · SHINOBI MEMORIES</div>
 
-            <section class="page">
+<h2>Shinobi Memories 📸</h2>
 
-                <div class="content">
-
-                    <div class="small">
-                        SHINOBI RECORD · PAGE 02
-                    </div>
-
-                    <h2>
-                        My Jutsu ⚡
-                    </h2>
-
-                    <h3>
-                        JUTSU I'M LEARNING
-                    </h3>
-
-                    <span class="skill">
-                        C#
-                    </span>
-
-                    <span class="skill">
-                        Web Development
-                    </span>
-
-                    <h3>
-                        SHINOBI ACTIVITIES
-                    </h3>
-
-                    <div class="card">
-
-                        <p>🥷 NSS</p>
-                        <p>🥷 NCC</p>
-                        <p>🥷 SCHOOL SPL</p>
-
-                    </div>
-
-                    <h3>
-                        COMBAT TRAINING
-                    </h3>
-
-                    <span class="skill">
-                        Silambam
-                    </span>
-
-                    <span class="skill">
-                        Karate
-                    </span>
-
-                    <span class="skill">
-                        Boxing
-                    </span>
-
-                    <div class="card">
-
-                        <h3>
-                            CURRENT MISSION
-                        </h3>
-
-                        <p>
-                            Master Full Stack Development
-                            and build powerful projects.
-                        </p>
-
-                    </div>
-
-                    <div class="card">
-
-                        <h3>
-                            NINJA PHILOSOPHY
-                        </h3>
-
-                        <p>
-                            Train today. Become stronger tomorrow.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 PAGE 3
-            ================================================= -->
-
-            <section class="page" id="albumPage">
-
-                <div class="content">
-
-                    <div class="small">
-                        SHINOBI RECORD · PAGE 03
-                    </div>
-
-                    <div class="album-title">
-                        Raguram's Album 📸
-                    </div>
-
-                    <div class="album-subtitle">
-                        My memories · My moments
-                    </div>
-
-
-                    <!-- PHOTO GRID -->
-
-                    <div
-                        class="photo-grid"
-                        id="photoGrid">
-                    </div>
-
-
-                    <!-- OWNER BUTTON -->
-
-                    <button
-                        class="owner-button"
-                        id="ownerButton">
-
-                        🔐 Owner
-
-                    </button>
-
-
-                    <!-- OWNER PANEL -->
-
-                    <div
-                        class="owner-panel"
-                        id="ownerPanel">
-
-                        <strong>
-                            🔓 Owner Mode
-                        </strong>
-
-                        <br>
-
-                        <label
-                            class="upload-button">
-
-                            ➕ Add Photos
-
-                            <input
-                                type="file"
-                                id="photoInput"
-                                accept="image/*"
-                                multiple>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-
-    </div>
-
-
-    <!-- NAVIGATION -->
-
-    <div class="navigation">
-
-        <button
-            class="nav"
-            id="prev">
-
-            ‹
-
-        </button>
-
-
-        <div class="dots">
-
-            <div
-                class="dot active"
-                data-page="0">
-            </div>
-
-            <div
-                class="dot"
-                data-page="1">
-            </div>
-
-            <div
-                class="dot"
-                data-page="2">
-            </div>
-
-        </div>
-
-
-        <button
-            class="nav"
-            id="next">
-
-            ›
-
-        </button>
-
-    </div>
-
+<p>
+A collection of moments from Raguram's journey.
+</p>
+
+<div class="memory">
+<span>🌀</span>
+<b>Memory Archive</b>
+<p>Photos and memories will appear here.</p>
+</div>
+
+</div>
+</section>
+
+</div>
 </div>
 
 
+<!-- NAVIGATION -->
+<div class="nav">
 
-<!-- =================================================
-     FULL SCREEN PHOTO
-================================================= -->
+<button id="prev">‹</button>
 
-<div
-    class="photo-viewer"
-    id="photoViewer">
+<div class="dots">
+<div class="dot active" data-page="0"></div>
+<div class="dot" data-page="1"></div>
+<div class="dot" data-page="2"></div>
+</div>
 
-    <button
-        class="close-viewer"
-        id="closeViewer">
-
-        ×
-
-    </button>
-
-    <img
-        id="viewerImage"
-        src=""
-        alt="Photo">
+<button id="next">›</button>
 
 </div>
 
-
-
-<!-- =================================================
-     PASSWORD POPUP
-================================================= -->
-
-<div
-    class="password-popup"
-    id="passwordPopup">
-
-    <div class="password-box">
-
-        <h3>
-            🔐 Shinobi Access
-        </h3>
-
-        <p>
-            Owner password
-        </p>
-
-        <input
-            type="password"
-            id="passwordInput"
-            placeholder="Enter password">
-
-        <button
-            id="loginButton">
-
-            Unlock
-
-        </button>
-
-        <button
-            class="cancel-btn"
-            id="cancelButton">
-
-            Cancel
-
-        </button>
-
-    </div>
+<div class="bottom">HIDDEN VILLAGE · RAGURAM.R</div>
 
 </div>
-
 
 
 <script>
+const track=document.getElementById("track");
+const viewport=document.getElementById("viewport");
+const prev=document.getElementById("prev");
+const next=document.getElementById("next");
+const dots=document.querySelectorAll(".dot");
 
-/* =================================================
-   PAGE SLIDER
-================================================= */
+let page=0;
 
-const track =
-    document.getElementById("track");
-
-const viewport =
-    document.getElementById("viewport");
-
-const prev =
-    document.getElementById("prev");
-
-const next =
-    document.getElementById("next");
-
-const dots =
-    document.querySelectorAll(".dot");
-
-let currentPage = 0;
-
-
-/* SHOW PAGE */
-
-function showPage(page) {
-
-    if (page < 0) {
-        page = 0;
-    }
-
-    if (page > 2) {
-        page = 2;
-    }
-
-    currentPage = page;
-
-    track.style.transform =
-        "translateX(-" +
-        (page * 33.3333) +
-        "%)";
-
-
-    dots.forEach(function(dot, index) {
-
-        dot.classList.toggle(
-            "active",
-            index === currentPage
-        );
-
-    });
-
-
-    prev.disabled =
-        currentPage === 0;
-
-    next.disabled =
-        currentPage === 2;
+function showPage(n){
+page=Math.max(0,Math.min(2,n));
+track.style.transform=`translateX(-${page*33.3333}%)`;
+dots.forEach((d,i)=>d.classList.toggle("active",i===page));
+prev.disabled=page===0;
+next.disabled=page===2;
 }
 
+next.onclick=()=>showPage(page+1);
+prev.onclick=()=>showPage(page-1);
 
-/* NEXT */
-
-next.addEventListener(
-    "click",
-    function() {
-
-        showPage(
-            currentPage + 1
-        );
-
-    }
-);
-
-
-/* PREVIOUS */
-
-prev.addEventListener(
-    "click",
-    function() {
-
-        showPage(
-            currentPage - 1
-        );
-
-    }
-);
-
-
-/* DOTS */
-
-dots.forEach(function(dot) {
-
-    dot.addEventListener(
-        "click",
-        function() {
-
-            showPage(
-                Number(dot.dataset.page)
-            );
-
-        }
-    );
-
+dots.forEach(d=>{
+d.onclick=()=>showPage(Number(d.dataset.page));
 });
 
 
-/* =================================================
-   SWIPE
-================================================= */
-
-let startX = 0;
-let startY = 0;
-
-viewport.addEventListener(
-    "touchstart",
-    function(event) {
-
-        startX =
-            event.touches[0].clientX;
-
-        startY =
-            event.touches[0].clientY;
-
-    },
-    { passive: true }
-);
-
-
-viewport.addEventListener(
-    "touchend",
-    function(event) {
-
-        const endX =
-            event.changedTouches[0].clientX;
-
-        const endY =
-            event.changedTouches[0].clientY;
-
-        const differenceX =
-            startX - endX;
-
-        const differenceY =
-            startY - endY;
-
-
-        /* Only horizontal swipe */
-
-        if (
-            Math.abs(differenceX) > 50 &&
-            Math.abs(differenceX) > Math.abs(differenceY)
-        ) {
-
-            /* LEFT */
-
-            if (differenceX > 0) {
-
-                showPage(
-                    currentPage + 1
-                );
-
-            }
-
-            /* RIGHT */
-
-            else {
-
-                showPage(
-                    currentPage - 1
-                );
-
-            }
-
-        }
-
-    },
-    { passive: true }
-);
-
-
-/* =================================================
-   PHOTO ALBUM
-================================================= */
-
-const photoGrid =
-    document.getElementById("photoGrid");
-
-const photoInput =
-    document.getElementById("photoInput");
-
-const ownerButton =
-    document.getElementById("ownerButton");
-
-const ownerPanel =
-    document.getElementById("ownerPanel");
-
-
-const photoViewer =
-    document.getElementById("photoViewer");
-
-const viewerImage =
-    document.getElementById("viewerImage");
-
-const closeViewer =
-    document.getElementById("closeViewer");
-
-
-let ownerMode = false;
-
-
-/*
-   IMPORTANT:
-   Change this password.
-*/
-
-const OWNER_PASSWORD =
-    "Ragu1234";
-
-
-/* LOAD PHOTOS */
-
-let photos =
-    JSON.parse(
-        localStorage.getItem(
-            "raguramPhotos"
-        )
-    ) || [];
-
-
-/* DISPLAY PHOTOS */
-
-function displayPhotos() {
-
-    photoGrid.innerHTML = "";
-
-
-    if (photos.length === 0) {
-
-        photoGrid.innerHTML = `
-            <div class="empty-album"
-                 style="grid-column:1/-1;">
-
-                📷<br><br>
-
-                No memories yet.
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-    photos.forEach(
-        function(photo, index) {
-
-            const frame =
-                document.createElement("div");
-
-            frame.className =
-                "photo-frame";
-
-
-            frame.innerHTML = `
-
-                <img
-                    src="${photo}"
-                    alt="Raguram Photo">
-
-                <button
-                    class="delete-photo">
-
-                    Delete
-
-                </button>
-
-            `;
-
-
-            /* OPEN PHOTO */
-
-            frame
-                .querySelector("img")
-                .addEventListener(
-                    "click",
-                    function() {
-
-                        viewerImage.src =
-                            photo;
-
-                        photoViewer.classList.add(
-                            "show"
-                        );
-
-                    }
-                );
-
-
-            /* DELETE */
-
-            frame
-                .querySelector(".delete-photo")
-                .addEventListener(
-                    "click",
-                    function(event) {
-
-                        event.stopPropagation();
-
-                        if (!ownerMode) {
-                            return;
-                        }
-
-                 
+/* SWIPE */
+
+let sx=0,sy=0;
+
+viewport.addEventListener("touchstart",e=>{
+sx=e.touches[0].clientX;
+sy=e.touches[0].clientY;
+},{passive:true});
+
+viewport.addEventListener("touchend",e=>{
+let ex=e.changedTouches[0].clientX;
+let ey=e.changedTouches[0].clientY;
+let dx=sx-ex;
+let dy=sy-ey;
+
+if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)){
+if(dx>0) showPage(page+1);
+else showPage(page-1);
+}
+},{passive:true});
+
+showPage(0);
+</script>
+
+</body>
+</html>
