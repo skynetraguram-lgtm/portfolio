@@ -3,673 +3,1517 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raguram.R — Notebook</title>
+
+<title>Raguram.R — Shinobi Record</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-  :root{
-    --paper:#F6EFDE;
-    --paper-dark:#EFE5CD;
-    --ink:#20283C;
-    --rule:#B9C9DE;
-    --margin:#C4453B;
-    --cover:#33241A;
-    --cover-2:#4A3324;
-    --gold:#CBA05A;
-    --tape:#E9C267;
-    --shadow: rgba(32,40,60,0.25);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;}
-  body{
-    background: radial-gradient(ellipse at top, #4a382a 0%, #241a12 70%);
-    font-family:'Space Mono', monospace;
-    display:flex;align-items:center;justify-content:center;
-    min-height:100vh;
-    min-height:100dvh;
-    overflow:hidden;
-    color:var(--ink);
+:root{
+  --paper:#efe3c2;
+  --paper-dark:#dfcda2;
+  --ink:#171717;
+  --rule:#b9a77b;
+  --margin:#c63d2f;
+
+  --cover:#17191c;
+  --cover-2:#292c30;
+
+  --orange:#e86f20;
+  --orange-dark:#a84413;
+
+  --red:#b82c24;
+  --leaf:#536f3a;
+
+  --gold:#d19a35;
+  --chakra:#f28b24;
+
+  --shadow:rgba(0,0,0,0.45);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  height:100%;
+}
+
+body{
+  background:
+    radial-gradient(
+      ellipse at top,
+      #3b342d 0%,
+      #171615 65%,
+      #090909 100%
+    );
+
+  font-family:'Space Mono',monospace;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:100vh;
+  min-height:100dvh;
+
+  overflow:hidden;
+
+  color:var(--ink);
+}
+
+
+/* =========================================================
+   BOOK
+========================================================= */
+
+.book{
+  position:relative;
+
+  width:min(92vw,480px);
+  height:min(82vh,720px);
+  height:min(80dvh,720px);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--cover-2),
+      var(--cover)
+    );
+
+  border-radius:10px;
+
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(232,111,32,0.2);
+
+  padding:14px 14px 14px 26px;
+
+  display:flex;
+
+  overflow:hidden;
+}
+
+
+/* =========================================================
+   SPINE
+========================================================= */
+
+.spine{
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:26px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--cover-2),
+      #111315
+    );
+
+  border-radius:10px 0 0 10px;
+
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:space-evenly;
+
+  padding:22px 0;
+}
+
+.ring{
+  width:11px;
+  height:11px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 35%,
+      #f3dca3,
+      var(--gold) 60%,
+      #6d5121 100%
+    );
+
+  box-shadow:
+    inset 0 0 2px rgba(0,0,0,0.5),
+    0 1px 2px rgba(0,0,0,0.7);
+}
+
+
+/* =========================================================
+   PAGE VIEWPORT
+========================================================= */
+
+.pages-viewport{
+  position:relative;
+
+  flex:1;
+
+  margin-left:14px;
+
+  border-radius:6px;
+
+  overflow:hidden;
+
+  background:var(--paper);
+
+  box-shadow:
+    inset 0 0 40px rgba(70,45,15,0.25);
+
+  touch-action:pan-y;
+}
+
+.pages-track{
+  display:flex;
+
+  width:300%;
+  height:100%;
+
+  transition:
+    transform 0.55s cubic-bezier(.65,.05,.36,1);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  width:33.3333%;
+  height:100%;
+
+  position:relative;
+
+  padding:26px 22px 66px 34px;
+
+  background:
+    repeating-linear-gradient(
+      var(--paper) 0 31px,
+      var(--rule) 31px 32px
+    );
+
+  overflow-y:auto;
+}
+
+.page::before{
+  content:"";
+
+  position:absolute;
+
+  left:22px;
+  top:0;
+  bottom:0;
+
+  width:2px;
+
+  background:var(--margin);
+
+  opacity:0.55;
+}
+
+.page::after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(0,0,0,0.08),
+      transparent 40%
+    );
+}
+
+
+/* =========================================================
+   LEAF SYMBOL
+========================================================= */
+
+.leaf-symbol{
+  position:absolute;
+
+  right:22px;
+  top:20px;
+
+  width:58px;
+  height:58px;
+
+  border:3px solid var(--orange-dark);
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:var(--orange-dark);
+
+  font-family:'Kalam',cursive;
+
+  font-size:30px;
+
+  transform:rotate(-8deg);
+
+  box-shadow:
+    inset 0 0 8px rgba(168,68,19,0.2);
+}
+
+.leaf-symbol::after{
+  content:"";
+
+  position:absolute;
+
+  width:28px;
+  height:4px;
+
+  background:var(--orange-dark);
+
+  transform:rotate(-35deg);
+
+  opacity:0.8;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  letter-spacing:2px;
+
+  text-transform:uppercase;
+
+  color:var(--red);
+
+  font-weight:600;
+
+  margin:0 0 6px;
+}
+
+h1.name{
+  font-family:'Kalam',cursive;
+
+  font-size:44px;
+
+  line-height:1.05;
+
+  margin:0 0 4px;
+
+  color:var(--ink);
+
+  transform:rotate(-1deg);
+
+  text-shadow:
+    1px 1px 0 rgba(0,0,0,0.08);
+}
+
+.stamp{
+  display:inline-block;
+
+  margin-top:14px;
+
+  padding:8px 12px;
+
+  border:2px solid var(--red);
+
+  border-radius:4px;
+
+  color:var(--red);
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  letter-spacing:1px;
+
+  transform:rotate(-3deg);
+
+  background:
+    rgba(198,61,47,0.05);
+}
+
+.field{
+  margin-top:22px;
+}
+
+.field .label{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  text-transform:uppercase;
+
+  letter-spacing:1.5px;
+
+  color:#6b624d;
+}
+
+.field .value{
+  font-family:'Kalam',cursive;
+
+  font-size:22px;
+
+  color:var(--ink);
+
+  margin-top:2px;
+}
+
+
+/* =========================================================
+   STICKY
+========================================================= */
+
+.sticky{
+  position:absolute;
+
+  right:18px;
+  top:92px;
+
+  width:72px;
+  height:72px;
+
+  background:var(--orange);
+
+  transform:rotate(6deg);
+
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.25);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  font-family:'Kalam',cursive;
+
+  font-size:12px;
+
+  color:#30170b;
+
+  text-align:center;
+
+  opacity:0.92;
+}
+
+
+/* =========================================================
+   CHAKRA BAR
+========================================================= */
+
+.chakra-box{
+  margin-top:28px;
+
+  border:1.5px solid #8d7952;
+
+  padding:12px;
+
+  background:
+    rgba(232,111,32,0.06);
+
+  transform:rotate(-0.5deg);
+}
+
+.chakra-title{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  letter-spacing:1.5px;
+
+  color:var(--red);
+
+  margin-bottom:8px;
+}
+
+.chakra-bar{
+  width:100%;
+  height:9px;
+
+  border:1px solid #806d48;
+
+  background:#d6c59c;
+
+  overflow:hidden;
+}
+
+.chakra-fill{
+  width:78%;
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--orange-dark),
+      var(--orange),
+      #f4b13d
+    );
+
+  animation:chakraPulse 2s infinite alternate;
+}
+
+@keyframes chakraPulse{
+  from{
+    width:72%;
   }
 
-  /* ===== BOOK SHELL ===== */
-  .book{
-    position:relative;
-    width:min(92vw, 480px);
-    height:min(82vh, 720px);
-    height:min(80dvh, 720px);
-    background:var(--cover);
-    border-radius:10px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(203,160,90,0.15);
-    padding:14px 14px 14px 26px;
-    display:flex;
+  to{
+    width:84%;
   }
-  .spine{
-    position:absolute;
-    left:0;top:0;bottom:0;
-    width:26px;
-    background:linear-gradient(180deg, var(--cover-2), var(--cover));
-    border-radius:10px 0 0 10px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:space-evenly;
-    padding:22px 0;
-  }
-  .ring{
-    width:11px;height:11px;
-    border-radius:50%;
-    background: radial-gradient(circle at 35% 35%, #efd9a0, var(--gold) 60%, #8a6a34 100%);
-    box-shadow: inset 0 0 2px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.6);
-  }
+}
 
-  .pages-viewport{
-    position:relative;
-    flex:1;
-    margin-left:14px;
-    border-radius:6px;
-    overflow:hidden;
-    background:var(--paper);
-    box-shadow: inset 0 0 40px rgba(90,70,40,0.18);
-    touch-action:pan-y;
-  }
-  .pages-track{
-    display:flex;
-    width:300%;
-    height:100%;
-    transition: transform 0.55s cubic-bezier(.65,.05,.36,1);
-  }
-  .page{
-    width:33.3333%;
-    height:100%;
-    position:relative;
-    padding:26px 22px 66px 34px;
-    background:
-      repeating-linear-gradient(var(--paper) 0 31px, var(--rule) 31px 32px);
-    overflow-y:auto;
-  }
-  .page::before{
-    content:"";
-    position:absolute;
-    left:22px; top:0; bottom:0;
-    width:2px;
-    background:var(--margin);
-    opacity:0.55;
-  }
-  .page::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background: radial-gradient(circle at 100% 0%, rgba(0,0,0,0.05), transparent 40%);
-  }
 
-  .eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--margin);
-    font-weight:600;
-    margin:0 0 6px;
-  }
+/* =========================================================
+   PAGE TITLES
+========================================================= */
+
+h2.pageTitle{
+  font-family:'Kalam',cursive;
+
+  font-size:30px;
+
+  margin:0 0 18px;
+
+  color:var(--ink);
+
+  transform:rotate(-0.6deg);
+}
+
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  letter-spacing:1.5px;
+
+  text-transform:uppercase;
+
+  color:var(--red);
+
+  margin:18px 0 8px;
+
+  font-weight:600;
+}
+
+
+/* =========================================================
+   CHIPS
+========================================================= */
+
+.chips{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+}
+
+.chip{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:12px;
+
+  padding:6px 10px;
+
+  border:1.5px dashed #8a7a58;
+
+  border-radius:16px;
+
+  color:var(--ink);
+
+  background:
+    rgba(232,111,32,0.07);
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badgeRow{
+  display:flex;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+}
+
+.badge{
+  width:64px;
+  height:64px;
+
+  border-radius:50%;
+
+  border:2px solid var(--red);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:9px;
+
+  font-weight:700;
+
+  color:var(--red);
+
+  letter-spacing:0.5px;
+
+  transform:rotate(-4deg);
+
+  flex-shrink:0;
+}
+
+.badge:nth-child(2){
+  transform:rotate(3deg);
+}
+
+.badge:nth-child(3){
+  transform:rotate(-2deg);
+}
+
+
+/* =========================================================
+   NINJA RANK
+========================================================= */
+
+.rank-card{
+  margin-top:24px;
+
+  padding:12px;
+
+  border-left:4px solid var(--orange);
+
+  background:
+    rgba(232,111,32,0.08);
+
+  font-family:'Kalam',cursive;
+
+  font-size:20px;
+}
+
+.rank-card small{
+  display:block;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:9px;
+
+  letter-spacing:1px;
+
+  color:#71654b;
+
+  margin-bottom:3px;
+}
+
+
+/* =========================================================
+   ALBUM
+========================================================= */
+
+.albumHead{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:16px;
+}
+
+.albumHead h2.pageTitle{
+  margin:0;
+}
+
+.ownerToggle{
+  width:34px;
+  height:34px;
+
+  border-radius:50%;
+
+  border:1.5px solid var(--red);
+
+  background:
+    rgba(198,61,47,0.06);
+
+  color:var(--red);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  flex-shrink:0;
+
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.ownerToggle.unlocked{
+  background:var(--ink);
+
+  border-color:var(--ink);
+
+  color:var(--paper);
+}
+
+.ownerToggle svg{
+  width:16px;
+  height:16px;
+}
+
+.viewerNote{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  color:#8a7a58;
+
+  margin:0 0 12px;
+}
+
+
+/* =========================================================
+   ALBUM GRID
+========================================================= */
+
+.albumGrid{
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:14px;
+
+  margin-top:6px;
+
+  max-height:calc(100% - 90px);
+
+  overflow-y:auto;
+
+  padding-bottom:10px;
+}
+
+.polaroid{
+  background:#fff;
+
+  padding:8px 8px 10px;
+
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.25);
+
+  position:relative;
+
+  transform:rotate(-2deg);
+}
+
+.polaroid:nth-child(even){
+  transform:rotate(2deg);
+}
+
+.polaroid img{
+  width:100%;
+  height:90px;
+
+  object-fit:cover;
+
+  display:block;
+
+  background:#ddd;
+
+  cursor:pointer;
+}
+
+.polaroid .capTitle{
+  font-family:'Kalam',cursive;
+
+  font-size:13px;
+
+  color:var(--ink);
+
+  margin:6px 2px 0;
+
+  line-height:1.15;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+}
+
+.polaroid .capDetail{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:9px;
+
+  color:#8a7a58;
+
+  margin:2px 2px 0;
+
+  line-height:1.3;
+
+  display:-webkit-box;
+
+  -webkit-line-clamp:2;
+
+  -webkit-box-orient:vertical;
+
+  overflow:hidden;
+}
+
+
+/* =========================================================
+   EDIT / DELETE
+========================================================= */
+
+.polaroid .edit{
+  position:absolute;
+
+  top:-8px;
+  left:-8px;
+
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  background:var(--ink);
+
+  color:var(--paper);
+
+  border:none;
+
+  font-size:10px;
+
+  line-height:1;
+
+  cursor:pointer;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+}
+
+.polaroid .del{
+  position:absolute;
+
+  top:-8px;
+  right:-8px;
+
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  background:var(--red);
+
+  color:#fff;
+
+  border:none;
+
+  font-size:12px;
+
+  line-height:1;
+
+  cursor:pointer;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+}
+
+
+/* =========================================================
+   ADD TILE
+========================================================= */
+
+.addTile{
+  border:2.5px dashed #8a7a58;
+
+  border-radius:6px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  min-height:98px;
+
+  cursor:pointer;
+
+  background:
+    rgba(232,111,32,0.06);
+
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+
+.addTile:hover{
+  background:
+    rgba(232,111,32,0.15);
+
+  transform:scale(1.02);
+}
+
+.addTile span{
+  font-family:'Kalam',cursive;
+
+  font-size:38px;
+
+  color:var(--red);
+}
+
+.emptyNote{
+  font-family:'Kalam',cursive;
+
+  font-size:14px;
+
+  color:#8a7a58;
+
+  grid-column:1 / -1;
+
+  text-align:center;
+
+  padding:20px 0;
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.pinModal{
+  position:absolute;
+
+  inset:0;
+
+  background:
+    rgba(20,18,15,0.58);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:10;
+
+  padding:24px;
+}
+
+.pinModalInner{
+  background:var(--paper);
+
+  border-radius:10px;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.45);
+
+  padding:26px 22px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:12px;
+
+  text-align:center;
+
+  width:100%;
+
+  max-width:240px;
+}
+
+.pinModalInner svg{
+  width:38px;
+  height:38px;
+
+  color:var(--red);
+}
+
+.pinModalInner h3{
+  font-family:'Kalam',cursive;
+
+  font-size:22px;
+
+  margin:0;
+}
+
+.pinModalInner p{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:11px;
+
+  color:#6b7994;
+
+  margin:0;
+}
+
+.pin-input{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:20px;
+
+  letter-spacing:8px;
+
+  text-align:center;
+
+  width:140px;
+
+  padding:8px 4px;
+
+  border:none;
+
+  border-bottom:2px solid var(--red);
+
+  background:transparent;
+
+  color:var(--ink);
+
+  outline:none;
+}
+
+.lockBtn{
+  margin-top:2px;
+
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:12px;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+
+  padding:9px 18px;
+
+  border-radius:20px;
+
+  border:none;
+
+  background:var(--ink);
+
+  color:var(--paper);
+
+  cursor:pointer;
+}
+
+.lockBtn:hover{
+  background:#30343a;
+}
+
+.lockErr{
+  font-size:11px;
+
+  color:var(--red);
+
+  font-family:'JetBrains Mono',monospace;
+
+  min-height:14px;
+}
+
+.lockHint{
+  font-size:10px;
+
+  color:#8a7a58;
+
+  font-family:'JetBrains Mono',monospace;
+
+  text-decoration:underline;
+
+  cursor:pointer;
+
+  background:none;
+
+  border:none;
+
+  padding:0;
+}
+
+
+/* =========================================================
+   CAPTION MODAL
+========================================================= */
+
+.captionModalInner{
+  background:var(--paper);
+
+  border-radius:10px;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.45);
+
+  padding:22px 20px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+
+  width:100%;
+
+  max-width:280px;
+}
+
+.captionModalInner h3{
+  font-family:'Kalam',cursive;
+
+  font-size:20px;
+
+  margin:0;
+
+  text-align:center;
+}
+
+.captionModalInner label{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:10px;
+
+  text-transform:uppercase;
+
+  letter-spacing:1px;
+
+  color:#6b7994;
+
+  margin-bottom:-4px;
+}
+
+.captionModalInner input[type="text"],
+.captionModalInner textarea{
+  font-family:'Kalam',cursive;
+
+  font-size:16px;
+
+  color:var(--ink);
+
+  border:none;
+
+  border-bottom:2px solid var(--rule);
+
+  background:transparent;
+
+  outline:none;
+
+  padding:4px 2px;
+
+  resize:none;
+}
+
+.captionModalInner textarea{
+  font-family:'Space Mono',monospace;
+
+  font-size:12px;
+
+  min-height:56px;
+}
+
+.captionBtnRow{
+  display:flex;
+
+  gap:10px;
+
+  justify-content:center;
+
+  margin-top:6px;
+}
+
+
+/* =========================================================
+   PHOTO VIEWER
+========================================================= */
+
+.photoViewer{
+  position:fixed;
+
+  inset:0;
+
+  width:100vw;
+
+  height:100vh;
+
+  height:100dvh;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #25211d,
+      #0b0907 70%
+    );
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:18px;
+
+  z-index:1000;
+
+  padding:20px;
+}
+
+.photoViewer img{
+  max-width:100%;
+
+  max-height:70vh;
+
+  max-height:70dvh;
+
+  width:auto;
+
+  height:auto;
+
+  object-fit:contain;
+
+  border-radius:4px;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.7);
+
+  background:#000;
+}
+
+.photoViewer .capTitle{
+  font-family:'Kalam',cursive;
+
+  font-size:22px;
+
+  color:var(--paper);
+
+  text-align:center;
+
+  margin:0;
+}
+
+.photoViewer .capDetail{
+  font-family:'Space Mono',monospace;
+
+  font-size:12px;
+
+  color:#c9bd9e;
+
+  text-align:center;
+
+  margin:-8px 0 0;
+
+  max-width:320px;
+
+  line-height:1.5;
+}
+
+.photoViewerBtns{
+  display:flex;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+
+  justify-content:center;
+}
+
+.pvBtn{
+  font-family:'JetBrains Mono',monospace;
+
+  font-size:12px;
+
+  letter-spacing:0.5px;
+
+  text-transform:uppercase;
+
+  padding:9px 16px;
+
+  border-radius:20px;
+
+  border:1.5px solid var(--paper);
+
+  background:transparent;
+
+  color:var(--paper);
+
+  cursor:pointer;
+}
+
+.pvBtn:hover{
+  background:var(--paper);
+
+  color:#17120e;
+}
+
+.pvBtn.danger{
+  border-color:var(--red);
+
+  background:var(--red);
+
+  color:#fff;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navBar{
+  position:absolute;
+
+  bottom:14px;
+
+  left:0;
+  right:0;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:16px;
+
+  z-index:6;
+}
+
+.navBtn{
+  width:34px;
+  height:34px;
+
+  border-radius:50%;
+
+  border:1.5px solid var(--ink);
+
+  background:var(--paper);
+
+  color:var(--ink);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:14px;
+}
+
+.navBtn:disabled{
+  opacity:0.25;
+
+  cursor:default;
+}
+
+.dots{
+  display:flex;
+
+  gap:7px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:#c9bd9e;
+
+  cursor:pointer;
+}
+
+.dot.active{
+  background:var(--red);
+}
+
+.pageNum{
+  position:absolute;
+
+  bottom:16px;
+  right:22px;
+
+  font-family:'Kalam',cursive;
+
+  font-size:14px;
+
+  color:#8a7a58;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.page::-webkit-scrollbar,
+.albumGrid::-webkit-scrollbar{
+  width:5px;
+}
+
+.page::-webkit-scrollbar-thumb,
+.albumGrid::-webkit-scrollbar-thumb{
+  background:#9c8b64;
+
+  border-radius:10px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:400px){
+
   h1.name{
-    font-family:'Kalam', cursive;
-    font-size:44px;
-    line-height:1.05;
-    margin:0 0 4px;
-    color:var(--ink);
-    transform:rotate(-1deg);
+    font-size:34px;
   }
-  .stamp{
-    display:inline-block;
-    margin-top:14px;
-    padding:8px 12px;
-    border:2px solid var(--margin);
-    border-radius:4px;
-    color:var(--margin);
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    letter-spacing:1px;
-    transform:rotate(-3deg);
-    background: rgba(196,69,59,0.05);
-  }
-  .field{
-    margin-top:22px;
-  }
-  .field .label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    color:#6b7994;
-  }
+
   .field .value{
-    font-family:'Kalam', cursive;
-    font-size:22px;
-    color:var(--ink);
-    margin-top:2px;
+    font-size:18px;
   }
+
+  .leaf-symbol{
+    width:48px;
+    height:48px;
+
+    font-size:24px;
+  }
+
   .sticky{
-    position:absolute;
-    right:18px; top:24px;
-    width:70px;height:70px;
-    background:var(--tape);
-    transform:rotate(6deg);
-    box-shadow:0 4px 8px rgba(0,0,0,0.2);
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Kalam',cursive;
-    font-size:12px;
-    color:#5a4419;
-    text-align:center;
-    opacity:0.9;
-  }
+    width:60px;
+    height:60px;
 
-  h2.pageTitle{
-    font-family:'Kalam', cursive;
-    font-size:30px;
-    margin:0 0 18px;
-    color:var(--ink);
-    transform:rotate(-0.6deg);
-  }
-  .section-label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--margin);
-    margin:18px 0 8px;
-    font-weight:600;
-  }
-  .chips{
-    display:flex;flex-wrap:wrap;gap:8px;
-  }
-  .chip{
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    padding:6px 10px;
-    border:1.5px dashed #8a7a58;
-    border-radius:16px;
-    color:var(--ink);
-    background:rgba(203,160,90,0.08);
-  }
-  .badgeRow{display:flex;gap:10px;flex-wrap:wrap;}
-  .badge{
-    width:64px;height:64px;
-    border-radius:50%;
-    border:2px solid var(--margin);
-    display:flex;align-items:center;justify-content:center;
-    text-align:center;
-    font-family:'JetBrains Mono',monospace;
     font-size:10px;
-    font-weight:700;
-    color:var(--margin);
-    letter-spacing:0.5px;
-    transform:rotate(-4deg);
-    flex-shrink:0;
-  }
-  .badge:nth-child(2){transform:rotate(3deg);}
-  .badge:nth-child(3){transform:rotate(-2deg);}
-
-  /* ===== PAGE 3 : ALBUM ===== */
-  .albumHead{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:10px;
-    margin-bottom:16px;
-  }
-  .albumHead h2.pageTitle{margin:0;}
-  .ownerToggle{
-    width:34px;height:34px;
-    border-radius:50%;
-    border:1.5px solid var(--margin);
-    background:rgba(196,69,59,0.06);
-    color:var(--margin);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    flex-shrink:0;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-  .ownerToggle.unlocked{
-    background:var(--ink);
-    border-color:var(--ink);
-    color:var(--paper);
-  }
-  .ownerToggle svg{width:16px;height:16px;}
-  .viewerNote{
-    font-family:'JetBrains Mono',monospace;
-    font-size:10px;
-    color:#8a7a58;
-    margin:0 0 12px;
   }
 
-  .pinModal{
-    position:absolute; inset:0;
-    background:rgba(32,40,60,0.35);
-    display:flex;align-items:center;justify-content:center;
-    z-index:10;
-    padding:24px;
+  .page{
+    padding-left:32px;
+    padding-right:18px;
   }
-  .pinModalInner{
-    background:var(--paper);
-    border-radius:10px;
-    box-shadow:0 14px 30px rgba(0,0,0,0.35);
-    padding:26px 22px;
-    display:flex;flex-direction:column;align-items:center;
-    gap:12px;
-    text-align:center;
-    width:100%;
-    max-width:240px;
-  }
-  .pinModalInner svg{width:38px;height:38px;color:var(--margin);}
-  .pinModalInner h3{font-family:'Kalam',cursive;font-size:22px;margin:0;}
-  .pinModalInner p{font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7994;margin:0;}
-  .pin-input{
-    font-family:'JetBrains Mono',monospace;
-    font-size:20px;
-    letter-spacing:8px;
-    text-align:center;
-    width:140px;
-    padding:8px 4px;
-    border:none;
-    border-bottom:2px solid var(--margin);
-    background:transparent;
-    color:var(--ink);
-    outline:none;
-  }
-  .lockBtn{
-    margin-top:2px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:9px 18px;
-    border-radius:20px;
-    border:none;
-    background:var(--ink);
-    color:var(--paper);
-    cursor:pointer;
-  }
-  .lockErr{font-size:11px;color:var(--margin);font-family:'JetBrains Mono',monospace;min-height:14px;}
-  .lockHint{font-size:10px;color:#8a7a58;font-family:'JetBrains Mono',monospace;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;}
-
-  .albumGrid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:14px;
-    margin-top:6px;
-    max-height:calc(100% - 90px);
-    overflow-y:auto;
-    padding-bottom:10px;
-  }
-  .polaroid{
-    background:#fff;
-    padding:8px 8px 10px;
-    box-shadow:0 6px 14px rgba(0,0,0,0.25);
-    position:relative;
-    transform:rotate(-2deg);
-  }
-  .polaroid:nth-child(even){transform:rotate(2deg);}
-  .polaroid img{width:100%;height:90px;object-fit:cover;display:block;background:#ddd;cursor:pointer;}
-  .polaroid .capTitle{
-    font-family:'Kalam',cursive;
-    font-size:13px;
-    color:var(--ink);
-    margin:6px 2px 0;
-    line-height:1.15;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .polaroid .capDetail{
-    font-family:'JetBrains Mono',monospace;
-    font-size:9px;
-    color:#8a7a58;
-    margin:2px 2px 0;
-    line-height:1.3;
-    display:-webkit-box;
-    -webkit-line-clamp:2;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-  }
-  .polaroid .edit{
-    position:absolute;top:-8px;left:-8px;
-    width:20px;height:20px;border-radius:50%;
-    background:var(--ink);color:var(--paper);border:none;
-    font-size:10px;line-height:1;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-  }
-
-  .captionModalInner{
-    background:var(--paper);
-    border-radius:10px;
-    box-shadow:0 14px 30px rgba(0,0,0,0.35);
-    padding:22px 20px;
-    display:flex;flex-direction:column;
-    gap:10px;
-    width:100%;
-    max-width:280px;
-  }
-  .captionModalInner h3{font-family:'Kalam',cursive;font-size:20px;margin:0;text-align:center;}
-  .captionModalInner label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:#6b7994;
-    margin-bottom:-4px;
-  }
-  .captionModalInner input[type="text"],
-  .captionModalInner textarea{
-    font-family:'Kalam',cursive;
-    font-size:16px;
-    color:var(--ink);
-    border:none;
-    border-bottom:2px solid var(--rule);
-    background:transparent;
-    outline:none;
-    padding:4px 2px;
-    resize:none;
-  }
-  .captionModalInner textarea{font-family:'Space Mono',monospace;font-size:12px;min-height:56px;}
-  .captionBtnRow{display:flex;gap:10px;justify-content:center;margin-top:6px;}
-
-  .photoViewer .capTitle{
-    font-family:'Kalam',cursive;
-    font-size:22px;
-    color:var(--paper);
-    text-align:center;
-    margin:0;
-  }
-  .photoViewer .capDetail{
-    font-family:'Space Mono',monospace;
-    font-size:12px;
-    color:#c9bd9e;
-    text-align:center;
-    margin:-8px 0 0;
-    max-width:320px;
-    line-height:1.5;
-  }
-
-  .photoViewer{
-    position:fixed; inset:0;
-    width:100vw; height:100vh; height:100dvh;
-    background:#0c0906;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:18px;
-    z-index:1000;
-    padding:20px;
-  }
-  .photoViewer img{
-    max-width:100%;
-    max-height:80vh; max-height:80dvh;
-    width:auto; height:auto;
-    object-fit:contain;
-    border-radius:4px;
-    box-shadow:0 12px 30px rgba(0,0,0,0.5);
-    background:#000;
-  }
-  .photoViewerBtns{display:flex;gap:12px;}
-  .pvBtn{
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    letter-spacing:0.5px;
-    text-transform:uppercase;
-    padding:9px 16px;
-    border-radius:20px;
-    border:1.5px solid var(--paper);
-    background:transparent;
-    color:var(--paper);
-    cursor:pointer;
-  }
-  .pvBtn.danger{
-    border-color:var(--margin);
-    background:var(--margin);
-    color:#fff;
-  }
-  .polaroid .del{
-    position:absolute;top:-8px;right:-8px;
-    width:20px;height:20px;border-radius:50%;
-    background:var(--margin);color:#fff;border:none;
-    font-size:12px;line-height:1;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .addTile{
-    border:2.5px dashed #8a7a58;
-    border-radius:6px;
-    display:flex;align-items:center;justify-content:center;
-    min-height:98px;
-    cursor:pointer;
-    background:rgba(203,160,90,0.06);
-    transition:background 0.2s;
-  }
-  .addTile:hover{background:rgba(203,160,90,0.15);}
-  .addTile span{font-family:'Kalam',cursive;font-size:38px;color:var(--margin);}
-  .emptyNote{
-    font-family:'Kalam',cursive;
-    font-size:14px;
-    color:#8a7a58;
-    grid-column:1 / -1;
-    text-align:center;
-    padding:20px 0;
-  }
-
-  /* ===== NAV ===== */
-  .navBar{
-    position:absolute;
-    bottom:14px; left:0; right:0;
-    display:flex;align-items:center;justify-content:center;
-    gap:16px;
-    z-index:6;
-  }
-  .navBtn{
-    width:34px;height:34px;
-    border-radius:50%;
-    border:1.5px solid var(--ink);
-    background:var(--paper);
-    color:var(--ink);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    font-size:14px;
-  }
-  .navBtn:disabled{opacity:0.25;cursor:default;}
-  .dots{display:flex;gap:7px;}
-  .dot{width:7px;height:7px;border-radius:50%;background:#c9bd9e;cursor:pointer;}
-  .dot.active{background:var(--margin);}
-  .pageNum{
-    position:absolute;
-    bottom:16px; right:22px;
-    font-family:'Kalam',cursive;
-    font-size:14px;
-    color:#8a7a58;
-  }
-
-  @media (max-width:400px){
-    h1.name{font-size:34px;}
-    .field .value{font-size:18px;}
-  }
+}
 </style>
 </head>
+
+
 <body>
 
 <div class="book" id="book">
+
+  <!-- SPINE -->
   <div class="spine">
-    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
-    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
   </div>
+
 
   <div class="pages-viewport">
+
     <div class="pages-track" id="track">
 
-      <!-- PAGE 1 -->
+
+      <!-- ===================================================
+           PAGE 1
+      ==================================================== -->
+
       <div class="page">
-        <div class="sticky">MY<br>NOTES</div>
-        <p class="eyebrow">student file · page 01</p>
-        <h1 class="name">Raguram.R</h1>
-        <span class="stamp">B.Sc VISUAL COMMUNICATION</span>
+
+        <div class="leaf-symbol">🍃</div>
+
+        <div class="sticky">
+          SHINOBI<br>
+          NOTES
+        </div>
+
+        <p class="eyebrow">
+          shinobi record · page 01
+        </p>
+
+        <h1 class="name">
+          Raguram.R
+        </h1>
+
+        <span class="stamp">
+          B.SC VISUAL COMMUNICATION
+        </span>
+
 
         <div class="field">
-          <div class="label">Year</div>
-          <div class="value">1st Year</div>
-        </div>
-        <div class="field">
-          <div class="label">College</div>
-          <div class="value">RD National College of Arts &amp; Science</div>
-        </div>
-        <div class="field">
-          <div class="label">Location</div>
-          <div class="value">Erode</div>
-        </div>
-      </div>
 
-      <!-- PAGE 2 -->
-      <div class="page">
-        <p class="eyebrow">skills &amp; activities · page 02</p>
-        <h2 class="pageTitle">What I'm learning</h2>
-        <div class="chips">
-          <span class="chip">C#</span>
-          <span class="chip">Web Development</span>
-        </div>
-
-        <p class="section-label">School Days</p>
-        <div class="badgeRow">
-          <div class="badge">NSS</div>
-          <div class="badge">NCC</div>
-          <div class="badge">SCHOOL<br>SPL</div>
-        </div>
-
-        <p class="section-label">Martial Arts</p>
-        <div class="chips">
-          <span class="chip">Silambam</span>
-          <span class="chip">Karate</span>
-          <span class="chip">Boxing</span>
-        </div>
-      </div>
-
-      <!-- PAGE 3 -->
-      <div class="page" id="albumPage">
-        <p class="eyebrow">photo album · page 03</p>
-        <div class="albumHead">
-          <h2 class="pageTitle">My Photos</h2>
-          <button class="ownerToggle" id="ownerToggle" title="Owner access">
-            <svg id="lockIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-          </button>
-        </div>
-        <p class="viewerNote" id="viewerNote">Only Raguram can add or remove photos here.</p>
-
-        <div class="albumGrid" id="albumGrid"></div>
-        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
-
-        <div class="pinModal" id="pinModal" style="display:none;">
-          <div class="pinModalInner">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
-            <h3 id="lockTitle">Set a PIN</h3>
-            <p id="lockDesc">Only you should know this. It unlocks the add / remove controls.</p>
-            <input type="password" class="pin-input" id="pinInput" maxlength="4" inputmode="numeric" placeholder="••••">
-            <button class="lockBtn" id="lockBtn">Save PIN</button>
-            <div class="lockErr" id="lockErr"></div>
-            <button class="lockHint" id="cancelPin">cancel</button>
-            <button class="lockHint" id="resetPin" style="display:none;">forgot PIN? reset album</button>
+          <div class="label">
+            Shinobi Rank
           </div>
+
+          <div class="value">
+            Genin • 1st Year
+          </div>
+
         </div>
 
-      </div>
 
-    </div>
-  </div>
+        <div class="field">
 
-  <div class="navBar">
-    <button class="navBtn" id="prevBtn">‹</button>
-    <div class="dots">
-      <div class="dot active" data-i="0"></div>
-      <div class="dot" data-i="1"></div>
-      <div class="dot" data-i="2"></div>
-    </div>
-    <button class="navBtn" id="nextBtn">›</button>
-  </div>
-  <div class="pageNum" id="pageNum">01 / 03</div>
-</div>
+          <div class="label">
+            Village
+          </div>
 
-<div class="pinModal" id="captionModal" style="display:none;">
-  <div class="captionModalInner">
-    <h3 id="captionModalTitle">Add a caption</h3>
-    <label for="capTitleInput">Title</label>
-    <input type="text" id="capTitleInput" maxlength="40" placeholder="e.g. College Day">
-    <label for="capDetailInput">Detail</label>
-    <textarea id="capDetailInput" maxlength="160" placeholder="Add a short note about this photo..."></textarea>
-    <div class="captionBtnRow">
-      <button class="lockHint" id="capSkip">skip</button>
-      <button class="lockBtn" id="capSave">Save</button>
-    </div>
-  </div>
-</div>
+          <div class="value">
+            RD National College
+          </div>
 
-<div class="photoViewer" id="photoViewer" style="display:none;">
-  <img id="photoViewerImg" src="" alt="photo">
-  <h3 class="capTitle" id="pvTitle"></h3>
-  <p class="capDetail" id="pvDetail"></p>
-  <div class="photoViewerBtns">
-    <button class="pvBtn" id="pvClose">Close</button>
-    <button class="pvBtn" id="pvEdit" style="display:none;">Edit caption</button>
-    <button class="pvBtn danger" id="pvRemove" style="display:none;">Remove photo</button>
-  </div>
-</div>
+        </div>
 
-<script>
-(function(){
-  const track = document.getElementById('track');
-  const dots = document.querySelectorAll('.dot');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const pageNum = document.getElementById('pageNum');
-  let current = 0;
-  const total = 3;
 
-  function render(){
-    track.style.transform = `translateX(-${current * (100/total)}%)`;
-    dots.forEach((d,i)=>d.classList.toggle('active', i===current));
-    prevBtn.disabled = current===0;
-    nextBtn.disabled = current===total-1;
-    pageNum.textContent = String(current+1).padStart(2,'0') + ' / 0' + total;
-  }
-  function goTo(i){
-    current = Math.max(0, Math.min(total-1, i));
-    render();
-  }
-  prevBtn.addEventListener('click', ()=>goTo(current-1));
-  nextBtn.addEventListener('click', ()=>goTo(current+1));
-  dots.forEach(d=>d.addEventListener('click', ()=>goTo(parseInt(d.dataset.i))));
-  document.addEventListener('keydown', e=>{
-    if(e.key==='ArrowLeft') goTo(current-1);
-    if(e.key==='ArrowRight') goTo(current+1);
-  });
+        <div class="field">
 
-  // swipe support — only treat as a page-swipe if the motion is clearly
-  // more horizontal than vertical, so scrolling inside the photo album
-  // (or the browser's own edge gestures) don't get misread as a swipe.
-  let touchStartX = null;
-  let touchStartY = null;
-  const viewport = document.querySelector('.pages-viewport');
-  viewport.addEventListener('touchstart', e=>{
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }, {passive:true});
-  viewport.addEventListener('touchend', e=>{
-    if(touchStartX===null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3){
-      if(dx > 0) goTo(current-1);
-      else goTo(current+1);
-    }
-    touchStartX = null;
-    touchStartY = null;
-  }, {passive:true});
+          <div class="label">
+            Location
+          </div>
 
-  render();
+          <div class="value">
+            Erode
+          </div>
 
-  // ===== ALBUM / OWNER PIN LOGIC =====
-  // Photos are visible to anyone who opens this page.
-  // The "+" add tile and the delete (×) buttons only appear after the
-  // owner unlocks with their PIN. Owner mode resets on reload/lock,
-  // so a viewer who opens the file never sees the controls.
-  const PIN_KEY = 'raguram_album_pin';
-  const PHOTOS_KEY =
+        </div>
+
+
+        <div class="chakra-box">
+
+          <div class="chakra-title">
+            CHAKRA RESERVE
+          </div>
+
+          <div class="chakra-bar">
+            <div class="chakra-fill"></div>
+          </
