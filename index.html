@@ -20,36 +20,43 @@ body {
     overflow-x: hidden;
 }
 
-/* MAIN */
+/* BOOK */
+
 .book {
     width: 94%;
     max-width: 700px;
-    margin: 40px auto;
+    margin: 30px auto;
     background: #222;
-    padding: 24px;
+    padding: 18px;
     border-radius: 20px;
 }
 
-/* PAGE AREA */
+/* PAGE VIEW */
+
 .viewport {
     width: 100%;
     overflow: hidden;
     border-radius: 12px;
+    touch-action: pan-y;
 }
+
+/* SLIDER */
 
 .track {
     display: flex;
     width: 300%;
-    transition: transform 0.5s ease;
+    transition: transform 0.65s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
 }
 
-/* EACH PAGE */
+/* PAGE */
+
 .page {
     width: 33.3333%;
     flex-shrink: 0;
 
     min-height: 700px;
-    padding: 45px 30px;
+    padding: 40px 25px;
 
     background:
         repeating-linear-gradient(
@@ -61,22 +68,29 @@ body {
         );
 
     border-radius: 10px;
+
     position: relative;
+    overflow: hidden;
 }
 
-/* RED NOTEBOOK LINE */
+/* NOTEBOOK RED LINE */
+
 .page::before {
     content: "";
     position: absolute;
-    left: 35px;
+
+    left: 30px;
     top: 0;
     bottom: 0;
+
     width: 3px;
+
     background: #c9574d;
-    opacity: 0.7;
+    opacity: .7;
 }
 
-/* TEXT */
+/* CONTENT */
+
 .content {
     position: relative;
     z-index: 2;
@@ -86,7 +100,7 @@ body {
 .small {
     color: #a52d27;
     letter-spacing: 3px;
-    font-size: 13px;
+    font-size: 12px;
     margin-bottom: 20px;
 }
 
@@ -102,35 +116,41 @@ h2 {
 }
 
 h3 {
-    margin-top: 30px;
+    margin-top: 28px;
     margin-bottom: 10px;
     color: #555;
     letter-spacing: 2px;
 }
 
 p {
-    font-size: 20px;
-    margin-bottom: 15px;
+    font-size: 19px;
+    margin-bottom: 12px;
 }
 
 /* CARDS */
+
 .card {
     border: 2px solid #9a8860;
     padding: 18px;
     margin: 18px 0;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,.2);
 }
+
+/* SKILLS */
 
 .skill {
     display: inline-block;
-    padding: 10px 15px;
+    padding: 10px 14px;
     margin: 5px;
+
     background: #e86f20;
     color: white;
+
     border-radius: 8px;
 }
 
 /* CHAKRA */
+
 .bar {
     height: 20px;
     border: 2px solid #76694e;
@@ -140,6 +160,7 @@ p {
 .fill {
     width: 80%;
     height: 100%;
+
     background: linear-gradient(
         90deg,
         #b83b20,
@@ -147,38 +168,289 @@ p {
     );
 }
 
-/* PHOTO */
-.photo {
-    width: 100%;
-    height: 180px;
-    border: 3px dashed #a52d27;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+/* =================================================
+   PAGE 3 - PHOTO ALBUM
+================================================= */
+
+.album-title {
+    text-align: center;
+    font-size: 30px;
+    color: #a52d27;
+    margin-bottom: 8px;
+}
+
+.album-subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+
+/* PHOTO GRID */
+
+.photo-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
     margin-top: 20px;
 }
 
-/* NAVIGATION */
+
+/* PHOTO FRAME */
+
+.photo-frame {
+    background: #eee4c8;
+
+    padding: 7px;
+
+    border: 1px solid #9c8c68;
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.25);
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.photo-frame:hover {
+    transform: translateY(-4px) rotate(-1deg);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.3);
+}
+
+.photo-frame:nth-child(even) {
+    transform: rotate(1deg);
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 150px;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* EMPTY ALBUM */
+
+.empty-album {
+    text-align: center;
+
+    padding: 80px 20px;
+
+    color: #777;
+
+    border: 2px dashed #a52d27;
+}
+
+
+/* OWNER BUTTON */
+
+.owner-button {
+    display: block;
+
+    margin: 25px auto 0;
+
+    padding: 9px 14px;
+
+    border: 1px solid #9a8860;
+
+    background: transparent;
+
+    color: #555;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+/* UPLOAD AREA */
+
+.owner-panel {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: 2px solid #a52d27;
+
+    background: rgba(255,255,255,.25);
+
+    text-align: center;
+}
+
+.owner-panel.show {
+    display: block;
+}
+
+.upload-button {
+    display: inline-block;
+
+    padding: 12px 18px;
+
+    background: #e86f20;
+
+    color: white;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+#photoInput {
+    display: none;
+}
+
+
+/* =================================================
+   FULL SCREEN PHOTO VIEWER
+================================================= */
+
+.photo-viewer {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.94);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.photo-viewer.show {
+    display: flex;
+}
+
+.photo-viewer img {
+    max-width: 94%;
+    max-height: 88%;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 30px rgba(255,255,255,.15);
+
+    animation: zoomIn .3s ease;
+}
+
+@keyframes zoomIn {
+
+    from {
+        transform: scale(.75);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* CLOSE */
+
+.close-viewer {
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.15);
+
+    color: white;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+/* DELETE */
+
+.delete-photo {
+    display: none;
+
+    width: 100%;
+
+    margin-top: 5px;
+
+    border: none;
+
+    background: #a52d27;
+
+    color: white;
+
+    padding: 6px;
+
+    cursor: pointer;
+}
+
+.owner-mode .delete-photo {
+    display: block;
+}
+
+
+/* =================================================
+   NAVIGATION
+================================================= */
+
 .navigation {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
-    margin-top: 20px;
+
+    margin-top: 18px;
 }
 
 .nav {
     width: 55px;
     height: 55px;
+
     border: none;
+
     border-radius: 50%;
+
     background: #e86f20;
+
     color: white;
+
     font-size: 30px;
+
     cursor: pointer;
 }
 
 .nav:disabled {
-    opacity: 0.3;
+    opacity: .3;
 }
 
 .dots {
@@ -189,26 +461,112 @@ p {
 .dot {
     width: 12px;
     height: 12px;
+
     background: #777;
+
     border-radius: 50%;
+
     cursor: pointer;
 }
 
 .dot.active {
     background: #e86f20;
+
+    transform: scale(1.15);
 }
 
+
+/* =================================================
+   PASSWORD POPUP
+================================================= */
+
+.password-popup {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.75);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 10000;
+}
+
+.password-popup.show {
+    display: flex;
+}
+
+.password-box {
+    width: 85%;
+    max-width: 350px;
+
+    background: #f1e4bd;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.password-box h3 {
+    margin-top: 0;
+    color: #a52d27;
+}
+
+.password-box input {
+    width: 100%;
+
+    padding: 12px;
+
+    margin: 15px 0;
+
+    border: 2px solid #9a8860;
+
+    background: #fffaf0;
+
+    border-radius: 7px;
+
+    font-size: 16px;
+}
+
+.password-box button {
+    padding: 10px 18px;
+
+    border: none;
+
+    background: #e86f20;
+
+    color: white;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.cancel-btn {
+    margin-left: 8px;
+
+    background: #777 !important;
+}
+
+
 /* MOBILE */
+
 @media(max-width:500px) {
 
     .book {
+        width: 94%;
         margin: 20px auto;
-        padding: 15px;
+        padding: 12px;
     }
 
     .page {
         min-height: 700px;
-        padding: 35px 20px;
+        padding: 35px 18px;
     }
 
     h1 {
@@ -216,17 +574,24 @@ p {
     }
 
     h2 {
-        font-size: 26px;
+        font-size: 27px;
     }
 
     p {
         font-size: 18px;
     }
+
+    .photo-frame img {
+        height: 135px;
+    }
 }
+
 </style>
 </head>
 
+
 <body>
+
 
 <div class="book">
 
@@ -234,7 +599,10 @@ p {
 
         <div class="track" id="track">
 
-            <!-- ================= PAGE 1 ================= -->
+
+            <!-- =================================================
+                 PAGE 1
+            ================================================= -->
 
             <section class="page">
 
@@ -244,22 +612,42 @@ p {
                         SHINOBI RECORD · PAGE 01
                     </div>
 
-                    <h1>Raguram.R</h1>
+                    <h1>
+                        Raguram.R
+                    </h1>
 
                     <div class="card">
-                        <p>B.Sc Visual Communication</p>
+                        <p>
+                            B.Sc Visual Communication
+                        </p>
                     </div>
 
-                    <h3>SHINOBI RANK</h3>
-                    <p>Genin · 1st Year</p>
+                    <h3>
+                        SHINOBI RANK
+                    </h3>
 
-                    <h3>VILLAGE</h3>
-                    <p>RD National College</p>
+                    <p>
+                        Genin · 1st Year
+                    </p>
 
-                    <h3>LOCATION</h3>
-                    <p>Erode</p>
+                    <h3>
+                        VILLAGE
+                    </h3>
+
+                    <p>
+                        RD National College
+                    </p>
+
+                    <h3>
+                        LOCATION
+                    </h3>
+
+                    <p>
+                        Erode
+                    </p>
 
                     <div class="card">
+
                         <div class="small">
                             CHAKRA RESERVE
                         </div>
@@ -267,13 +655,19 @@ p {
                         <div class="bar">
                             <div class="fill"></div>
                         </div>
+
                     </div>
 
                     <div class="card">
-                        <h3>SHINOBI WAY</h3>
+
+                        <h3>
+                            SHINOBI WAY
+                        </h3>
+
                         <p>
                             Learn. Create. Improve.
                         </p>
+
                     </div>
 
                 </div>
@@ -281,7 +675,9 @@ p {
             </section>
 
 
-            <!-- ================= PAGE 2 ================= -->
+            <!-- =================================================
+                 PAGE 2
+            ================================================= -->
 
             <section class="page">
 
@@ -291,46 +687,55 @@ p {
                         SHINOBI RECORD · PAGE 02
                     </div>
 
-                    <h2>My Jutsu ⚡</h2>
+                    <h2>
+                        My Jutsu ⚡
+                    </h2>
 
-                    <h3>JUTSU I'M LEARNING</h3>
+                    <h3>
+                        JUTSU I'M LEARNING
+                    </h3>
 
-                    <div class="skill">
+                    <span class="skill">
                         C#
-                    </div>
+                    </span>
 
-                    <div class="skill">
+                    <span class="skill">
                         Web Development
-                    </div>
+                    </span>
 
-
-                    <h3>SHINOBI ACTIVITIES</h3>
+                    <h3>
+                        SHINOBI ACTIVITIES
+                    </h3>
 
                     <div class="card">
+
                         <p>🥷 NSS</p>
                         <p>🥷 NCC</p>
                         <p>🥷 SCHOOL SPL</p>
+
                     </div>
 
+                    <h3>
+                        COMBAT TRAINING
+                    </h3>
 
-                    <h3>COMBAT TRAINING</h3>
-
-                    <div class="skill">
+                    <span class="skill">
                         Silambam
-                    </div>
+                    </span>
 
-                    <div class="skill">
+                    <span class="skill">
                         Karate
-                    </div>
+                    </span>
 
-                    <div class="skill">
+                    <span class="skill">
                         Boxing
-                    </div>
-
+                    </span>
 
                     <div class="card">
 
-                        <h3>CURRENT MISSION</h3>
+                        <h3>
+                            CURRENT MISSION
+                        </h3>
 
                         <p>
                             Master Full Stack Development
@@ -339,13 +744,14 @@ p {
 
                     </div>
 
-
                     <div class="card">
 
-                        <h3>NINJA PHILOSOPHY</h3>
+                        <h3>
+                            NINJA PHILOSOPHY
+                        </h3>
 
                         <p>
-                            "Train today. Become stronger tomorrow."
+                            Train today. Become stronger tomorrow.
                         </p>
 
                     </div>
@@ -355,9 +761,11 @@ p {
             </section>
 
 
-            <!-- ================= PAGE 3 ================= -->
+            <!-- =================================================
+                 PAGE 3
+            ================================================= -->
 
-            <section class="page">
+            <section class="page" id="albumPage">
 
                 <div class="content">
 
@@ -365,40 +773,58 @@ p {
                         SHINOBI RECORD · PAGE 03
                     </div>
 
-                    <h2>My Photos 📸</h2>
-
-                    <div class="card">
-
-                        <h3>SHINOBI MEMORIES</h3>
-
-                        <p>
-                            My personal photo album.
-                        </p>
-
+                    <div class="album-title">
+                        Raguram's Album 📸
                     </div>
 
-                    <div class="photo">
-                        📷 PHOTO ALBUM
+                    <div class="album-subtitle">
+                        My memories · My moments
                     </div>
 
-                    <div class="card">
 
-                        <p>
-                            🔒 Private Shinobi Memories
-                        </p>
+                    <!-- PHOTO GRID -->
 
-                        <button
-                            onclick="alert('Photo album feature coming soon!')"
-                            style="
-                            margin-top:15px;
-                            padding:12px 20px;
-                            border:0;
-                            background:#e86f20;
-                            color:white;
-                            border-radius:8px;
-                            ">
-                            OPEN ALBUM
-                        </button>
+                    <div
+                        class="photo-grid"
+                        id="photoGrid">
+                    </div>
+
+
+                    <!-- OWNER BUTTON -->
+
+                    <button
+                        class="owner-button"
+                        id="ownerButton">
+
+                        🔐 Owner
+
+                    </button>
+
+
+                    <!-- OWNER PANEL -->
+
+                    <div
+                        class="owner-panel"
+                        id="ownerPanel">
+
+                        <strong>
+                            🔓 Owner Mode
+                        </strong>
+
+                        <br>
+
+                        <label
+                            class="upload-button">
+
+                            ➕ Add Photos
+
+                            <input
+                                type="file"
+                                id="photoInput"
+                                accept="image/*"
+                                multiple>
+
+                        </label>
 
                     </div>
 
@@ -418,8 +844,11 @@ p {
         <button
             class="nav"
             id="prev">
+
             ‹
+
         </button>
+
 
         <div class="dots">
 
@@ -440,10 +869,13 @@ p {
 
         </div>
 
+
         <button
             class="nav"
             id="next">
+
             ›
+
         </button>
 
     </div>
@@ -451,18 +883,96 @@ p {
 </div>
 
 
+
+<!-- =================================================
+     FULL SCREEN PHOTO
+================================================= -->
+
+<div
+    class="photo-viewer"
+    id="photoViewer">
+
+    <button
+        class="close-viewer"
+        id="closeViewer">
+
+        ×
+
+    </button>
+
+    <img
+        id="viewerImage"
+        src=""
+        alt="Photo">
+
+</div>
+
+
+
+<!-- =================================================
+     PASSWORD POPUP
+================================================= -->
+
+<div
+    class="password-popup"
+    id="passwordPopup">
+
+    <div class="password-box">
+
+        <h3>
+            🔐 Shinobi Access
+        </h3>
+
+        <p>
+            Owner password
+        </p>
+
+        <input
+            type="password"
+            id="passwordInput"
+            placeholder="Enter password">
+
+        <button
+            id="loginButton">
+
+            Unlock
+
+        </button>
+
+        <button
+            class="cancel-btn"
+            id="cancelButton">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
 <script>
 
-/* =========================
-   PAGE NAVIGATION
-========================= */
+/* =================================================
+   PAGE SLIDER
+================================================= */
 
-const track = document.getElementById("track");
+const track =
+    document.getElementById("track");
 
-const prev = document.getElementById("prev");
-const next = document.getElementById("next");
+const viewport =
+    document.getElementById("viewport");
 
-const dots = document.querySelectorAll(".dot");
+const prev =
+    document.getElementById("prev");
+
+const next =
+    document.getElementById("next");
+
+const dots =
+    document.querySelectorAll(".dot");
 
 let currentPage = 0;
 
@@ -486,9 +996,8 @@ function showPage(page) {
         (page * 33.3333) +
         "%)";
 
-    /* UPDATE DOTS */
 
-    dots.forEach((dot, index) => {
+    dots.forEach(function(dot, index) {
 
         dot.classList.toggle(
             "active",
@@ -497,57 +1006,67 @@ function showPage(page) {
 
     });
 
-    /* BUTTON STATE */
 
-    prev.disabled = currentPage === 0;
+    prev.disabled =
+        currentPage === 0;
 
-    next.disabled = currentPage === 2;
+    next.disabled =
+        currentPage === 2;
 }
 
 
-/* NEXT BUTTON */
+/* NEXT */
 
-next.addEventListener("click", function() {
+next.addEventListener(
+    "click",
+    function() {
 
-    showPage(currentPage + 1);
+        showPage(
+            currentPage + 1
+        );
 
-});
+    }
+);
 
 
-/* PREVIOUS BUTTON */
+/* PREVIOUS */
 
-prev.addEventListener("click", function() {
+prev.addEventListener(
+    "click",
+    function() {
 
-    showPage(currentPage - 1);
+        showPage(
+            currentPage - 1
+        );
 
-});
+    }
+);
 
 
 /* DOTS */
 
 dots.forEach(function(dot) {
 
-    dot.addEventListener("click", function() {
+    dot.addEventListener(
+        "click",
+        function() {
 
-        showPage(
-            Number(dot.dataset.page)
-        );
+            showPage(
+                Number(dot.dataset.page)
+            );
 
-    });
+        }
+    );
 
 });
 
 
-/* =========================
+/* =================================================
    SWIPE
-========================= */
+================================================= */
 
 let startX = 0;
-let endX = 0;
-
-const viewport =
-    document.getElementById("viewport");
-
+let startY = 0;
 
 viewport.addEventListener(
     "touchstart",
@@ -555,6 +1074,9 @@ viewport.addEventListener(
 
         startX =
             event.touches[0].clientX;
+
+        startY =
+            event.touches[0].clientY;
 
     },
     { passive: true }
@@ -565,31 +1087,45 @@ viewport.addEventListener(
     "touchend",
     function(event) {
 
-        endX =
+        const endX =
             event.changedTouches[0].clientX;
 
-        let distance =
+        const endY =
+            event.changedTouches[0].clientY;
+
+        const differenceX =
             startX - endX;
 
-
-        /* SWIPE LEFT */
-
-        if (distance > 50) {
-
-            showPage(
-                currentPage + 1
-            );
-
-        }
+        const differenceY =
+            startY - endY;
 
 
-        /* SWIPE RIGHT */
+        /* Only horizontal swipe */
 
-        if (distance < -50) {
+        if (
+            Math.abs(differenceX) > 50 &&
+            Math.abs(differenceX) > Math.abs(differenceY)
+        ) {
 
-            showPage(
-                currentPage - 1
-            );
+            /* LEFT */
+
+            if (differenceX > 0) {
+
+                showPage(
+                    currentPage + 1
+                );
+
+            }
+
+            /* RIGHT */
+
+            else {
+
+                showPage(
+                    currentPage - 1
+                );
+
+            }
 
         }
 
@@ -598,11 +1134,136 @@ viewport.addEventListener(
 );
 
 
-/* START */
+/* =================================================
+   PHOTO ALBUM
+================================================= */
 
-showPage(0);
+const photoGrid =
+    document.getElementById("photoGrid");
 
-</script>
+const photoInput =
+    document.getElementById("photoInput");
 
-</body>
-</html>
+const ownerButton =
+    document.getElementById("ownerButton");
+
+const ownerPanel =
+    document.getElementById("ownerPanel");
+
+
+const photoViewer =
+    document.getElementById("photoViewer");
+
+const viewerImage =
+    document.getElementById("viewerImage");
+
+const closeViewer =
+    document.getElementById("closeViewer");
+
+
+let ownerMode = false;
+
+
+/*
+   IMPORTANT:
+   Change this password.
+*/
+
+const OWNER_PASSWORD =
+    "Ragu1234";
+
+
+/* LOAD PHOTOS */
+
+let photos =
+    JSON.parse(
+        localStorage.getItem(
+            "raguramPhotos"
+        )
+    ) || [];
+
+
+/* DISPLAY PHOTOS */
+
+function displayPhotos() {
+
+    photoGrid.innerHTML = "";
+
+
+    if (photos.length === 0) {
+
+        photoGrid.innerHTML = `
+            <div class="empty-album"
+                 style="grid-column:1/-1;">
+
+                📷<br><br>
+
+                No memories yet.
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    photos.forEach(
+        function(photo, index) {
+
+            const frame =
+                document.createElement("div");
+
+            frame.className =
+                "photo-frame";
+
+
+            frame.innerHTML = `
+
+                <img
+                    src="${photo}"
+                    alt="Raguram Photo">
+
+                <button
+                    class="delete-photo">
+
+                    Delete
+
+                </button>
+
+            `;
+
+
+            /* OPEN PHOTO */
+
+            frame
+                .querySelector("img")
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        viewerImage.src =
+                            photo;
+
+                        photoViewer.classList.add(
+                            "show"
+                        );
+
+                    }
+                );
+
+
+            /* DELETE */
+
+            frame
+                .querySelector(".delete-photo")
+                .addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+                        if (!ownerMode) {
+                            return;
+                        }
+
+                 
