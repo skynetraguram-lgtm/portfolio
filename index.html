@@ -2,639 +2,870 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Raguram.R | Shinobi Archive</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<title>Raguram.R — Digital Portfolio</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
---orange:#ff641f;
---red:#d92b18;
---black:#050506;
---panel:#101113;
+--bg:#050505;
+--panel:#0d0d0f;
+--panel2:#141416;
 --text:#f5f5f5;
---muted:#777;
+--muted:#929292;
+--line:rgba(255,255,255,.1);
+--accent:#ff6a21;
+--accent2:#ff9a55;
+--shadow:0 25px 80px rgba(0,0,0,.65)
 }
 
-html,body{
-width:100%;
-height:100%;
-}
+html{scroll-behavior:smooth}
 
 body{
-font-family:Arial,Helvetica,sans-serif;
-color:var(--text);
+min-height:100vh;
 background:
-radial-gradient(circle at 50% 35%,#42140d 0%,#160a08 25%,#050505 70%);
-overflow:hidden;
+radial-gradient(circle at 50% -10%,rgba(255,94,35,.2),transparent 32%),
+radial-gradient(circle at 100% 70%,rgba(255,70,20,.08),transparent 30%),
+var(--bg);
+color:var(--text);
+font-family:Inter,Arial,Helvetica,sans-serif;
+overflow-x:hidden
 }
-
-/* BACKGROUND */
 
 body:before{
 content:"";
 position:fixed;
-width:520px;
-height:520px;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-border:1px solid rgba(255,70,20,.08);
-border-radius:50%;
-box-shadow:
-0 0 90px rgba(255,50,15,.08),
-inset 0 0 90px rgba(255,50,15,.05);
-animation:rotate 12s linear infinite;
-pointer-events:none;
-}
-
-body:after{
-content:"";
-position:fixed;
 inset:0;
-background:
-radial-gradient(circle at 15% 20%,rgba(255,80,20,.12) 0 2px,transparent 3px),
-radial-gradient(circle at 80% 70%,rgba(255,80,20,.1) 0 2px,transparent 3px),
-radial-gradient(circle at 25% 85%,rgba(255,80,20,.08) 0 2px,transparent 3px);
 pointer-events:none;
+z-index:0;
+opacity:.25;
+background-image:
+linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+background-size:45px 45px
 }
 
-@keyframes rotate{
-from{transform:translate(-50%,-50%) rotate(0)}
-to{transform:translate(-50%,-50%) rotate(360deg)}
+a{
+color:inherit;
+text-decoration:none
 }
 
-/* MAIN */
+button{
+font:inherit
+}
 
-.container{
-width:94%;
-max-width:650px;
-margin:16px auto;
+.app{
 position:relative;
-z-index:2;
+z-index:1;
+width:min(1180px,94%);
+margin:auto;
+padding:22px 0 30px
 }
 
-/* HEADER */
+/* TOP BAR */
 
-.header{
-text-align:center;
-margin-bottom:13px;
+.topbar{
+height:64px;
+border:1px solid var(--line);
+border-radius:22px;
+background:rgba(12,12,14,.72);
+backdrop-filter:blur(20px);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 16px 0 20px;
+box-shadow:var(--shadow);
+position:sticky;
+top:12px;
+z-index:20
 }
 
-.village{
-font-size:11px;
-font-weight:bold;
-letter-spacing:5px;
-color:var(--orange);
+.brand{
+display:flex;
+align-items:center;
+gap:11px;
+font-weight:900;
+letter-spacing:1px
 }
 
-.subtitle{
+.brand-mark{
+width:34px;
+height:34px;
+border-radius:11px;
+background:linear-gradient(145deg,#ff8b4a,#d9340e);
+display:grid;
+place-items:center;
+font-size:13px;
+box-shadow:0 0 25px rgba(255,90,30,.35)
+}
+
+.brand small{
+display:block;
+color:var(--muted);
 font-size:8px;
 letter-spacing:3px;
-color:#666;
-margin-top:5px;
+margin-top:2px
 }
 
-/* SLIDER */
+.nav{
+display:flex;
+gap:5px
+}
+
+.nav button{
+border:0;
+background:transparent;
+color:#777;
+padding:10px 14px;
+border-radius:13px;
+cursor:pointer;
+transition:.25s;
+font-weight:700;
+font-size:12px
+}
+
+.nav button:hover,
+.nav button.active{
+color:#fff;
+background:rgba(255,255,255,.07)
+}
+
+.menu{
+display:none;
+border:1px solid var(--line);
+background:#111;
+color:#fff;
+border-radius:12px;
+padding:9px 12px;
+cursor:pointer
+}
+
+/* VIEWPORT */
 
 .viewport{
-width:100%;
+margin-top:22px;
 overflow:hidden;
-border-radius:18px;
-touch-action:pan-y;
-box-shadow:
-0 25px 70px rgba(0,0,0,.85),
-0 0 40px rgba(255,50,10,.08);
+border-radius:30px;
+border:1px solid rgba(255,255,255,.09);
+box-shadow:var(--shadow);
+background:#09090a;
+touch-action:pan-y
 }
 
 .track{
-width:300%;
 display:flex;
-transition:transform .75s cubic-bezier(.22,.61,.36,1);
+width:300%;
+transition:transform .65s cubic-bezier(.2,.75,.2,1)
 }
 
 /* PAGE */
 
 .page{
 width:33.3333%;
-flex-shrink:0;
-min-height:680px;
-padding:27px 22px;
+min-height:690px;
+padding:42px;
 position:relative;
-overflow:hidden;
-background:
-radial-gradient(circle at 90% 5%,rgba(255,80,20,.16),transparent 28%),
-linear-gradient(145deg,#18191b,#08090a);
-border:1px solid rgba(255,80,30,.3);
+overflow:hidden
 }
 
-.page:before,
 .page:after{
 content:"";
 position:absolute;
-width:35px;
-height:35px;
-border-color:var(--orange);
-opacity:.7;
+width:360px;
+height:360px;
+border-radius:50%;
+background:rgba(255,80,25,.08);
+filter:blur(70px);
+right:-180px;
+top:-170px;
+pointer-events:none
 }
 
-.page:before{
-left:9px;
-top:9px;
-border-left:2px solid;
-border-top:2px solid;
-}
+/* HOME */
 
-.page:after{
-right:9px;
-bottom:9px;
-border-right:2px solid;
-border-bottom:2px solid;
-}
-
-.content{
-position:relative;
-z-index:3;
-}
-
-/* TOP PAGE BAR */
-
-.page-code{
-display:flex;
+.hero{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:40px;
 align-items:center;
-justify-content:space-between;
-margin-bottom:23px;
+min-height:600px
 }
 
-.page-code span:first-child{
-font-size:9px;
-font-weight:bold;
-letter-spacing:3px;
-color:var(--orange);
+.eyebrow{
+font-size:10px;
+letter-spacing:4px;
+color:var(--accent);
+font-weight:900;
+margin-bottom:15px
 }
 
-.status{
-font-size:8px;
-letter-spacing:2px;
-color:#4bd16b;
+h1{
+font-size:clamp(48px,7vw,86px);
+line-height:.9;
+letter-spacing:-4px
 }
 
-.status:before{
-content:"";
-display:inline-block;
-width:6px;
-height:6px;
-border-radius:50%;
-background:#4bd16b;
-box-shadow:0 0 9px #4bd16b;
-margin-right:5px;
+h1 span{
+color:var(--accent)
 }
 
-/* DP */
+.lead{
+max-width:570px;
+color:#a2a2a2;
+font-size:16px;
+line-height:1.7;
+margin:24px 0
+}
 
-.symbol{
-width:155px;
-height:155px;
-padding:5px;
-margin:4px auto 21px;
-border-radius:50%;
-border:3px solid var(--orange);
-background:#050505;
-box-shadow:
-0 0 20px rgba(255,70,20,.65),
-0 0 55px rgba(255,50,10,.2),
-inset 0 0 20px rgba(255,70,20,.25);
+.cta{
+display:flex;
+gap:10px;
+flex-wrap:wrap
+}
+
+.btn{
+border:1px solid var(--line);
+background:#151517;
+color:#fff;
+padding:13px 18px;
+border-radius:14px;
+cursor:pointer;
+font-weight:800;
+transition:.25s
+}
+
+.btn.primary{
+background:linear-gradient(135deg,#ff7a32,#dc3512);
+border-color:transparent
+}
+
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 30px rgba(255,75,20,.18)
+}
+
+/* PORTRAIT */
+
+.portrait-wrap{
 position:relative;
-animation:glow 3s ease-in-out infinite;
+display:grid;
+place-items:center
 }
 
-.symbol:before{
-content:"";
-position:absolute;
-inset:-10px;
-border:1px solid rgba(255,90,30,.3);
-border-radius:50%;
-animation:ring 4s linear infinite;
+.portrait{
+width:min(390px,80vw);
+aspect-ratio:1;
+border-radius:38px;
+overflow:hidden;
+border:1px solid rgba(255,100,45,.35);
+background:#000;
+box-shadow:
+0 0 0 8px rgba(255,255,255,.025),
+0 35px 90px #000
 }
 
-.symbol img{
+.portrait img{
 width:100%;
 height:100%;
-display:block;
 object-fit:cover;
-border-radius:50%;
-filter:grayscale(100%) contrast(1.08);
+display:block;
+filter:grayscale(100%) contrast(1.08)
 }
 
-@keyframes glow{
-0%,100%{
-box-shadow:
-0 0 18px rgba(255,70,20,.45),
-0 0 40px rgba(255,50,10,.15);
-}
-50%{
-box-shadow:
-0 0 30px rgba(255,70,20,.8),
-0 0 65px rgba(255,50,10,.3);
-}
-}
-
-@keyframes ring{
-from{transform:rotate(0)}
-to{transform:rotate(360deg)}
-}
-
-/* NAME */
-
-.name{
-text-align:center;
-font-size:40px;
-font-weight:900;
-letter-spacing:1px;
-text-shadow:0 0 20px rgba(255,70,20,.25);
-}
-
-.rank{
-text-align:center;
+.badge{
+position:absolute;
+bottom:15px;
+left:5%;
+padding:12px 16px;
+border:1px solid var(--line);
+background:rgba(10,10,10,.78);
+backdrop-filter:blur(15px);
+border-radius:15px;
 font-size:10px;
-font-weight:bold;
+letter-spacing:2px
+}
+
+/* SECTION */
+
+.section-head{
+max-width:700px;
+margin-bottom:28px
+}
+
+.kicker{
+color:var(--accent);
+font-size:9px;
+font-weight:900;
 letter-spacing:4px;
-color:var(--orange);
-margin-top:7px;
+margin-bottom:9px
 }
 
-/* PROFILE */
+h2{
+font-size:clamp(35px,5vw,55px);
+letter-spacing:-2px
+}
 
-.profile{
-margin-top:27px;
+.sub{
+color:#8d8d8d;
+line-height:1.65;
+margin-top:9px
+}
+
+/* CARDS */
+
+.grid{
 display:grid;
-gap:10px;
+grid-template-columns:repeat(3,1fr);
+gap:13px
 }
 
-.data{
-display:flex;
-align-items:center;
-gap:12px;
-padding:13px;
-background:rgba(255,255,255,.035);
-border:1px solid rgba(255,255,255,.07);
-border-left:3px solid var(--orange);
-border-radius:8px;
+.card{
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.055),
+rgba(255,255,255,.018)
+);
+border:1px solid var(--line);
+border-radius:20px;
+padding:22px;
+min-height:150px;
+transition:.25s;
+position:relative;
+overflow:hidden
+}
+
+.card:hover{
+transform:translateY(-4px);
+border-color:rgba(255,100,40,.45)
+}
+
+.card:before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,100,30,.07),
+transparent
+);
+transform:translateX(-100%);
+transition:.5s
+}
+
+.card:hover:before{
+transform:translateX(100%)
 }
 
 .icon{
-width:34px;
-height:34px;
-flex-shrink:0;
-border-radius:7px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,70,20,.1);
-font-size:17px;
+font-size:25px;
+margin-bottom:18px
 }
 
-.data small{
-display:block;
-font-size:8px;
-letter-spacing:2px;
-color:#666;
-margin-bottom:4px;
+.card b{
+font-size:17px
 }
 
-.data strong{
-font-size:14px;
-line-height:1.35;
-}
-
-/* PAGE 2 */
-
-.title{
-font-size:31px;
-font-weight:900;
-margin-bottom:7px;
-}
-
-.description{
-font-size:13px;
+.card p{
+font-size:12px;
 line-height:1.6;
 color:#777;
+margin-top:7px
 }
 
-.section{
-margin-top:22px;
-}
+/* TAGS */
 
-.section-title{
+.tags{
 display:flex;
-align-items:center;
 gap:8px;
-font-size:9px;
-font-weight:bold;
-letter-spacing:3px;
-color:var(--orange);
-margin-bottom:10px;
+flex-wrap:wrap;
+margin-top:25px
 }
 
-.section-title:after{
-content:"";
-height:1px;
-flex:1;
-background:rgba(255,80,20,.2);
+.tag{
+padding:10px 13px;
+border-radius:12px;
+border:1px solid var(--line);
+background:#101012;
+color:#bbb;
+font-size:11px;
+font-weight:700
 }
 
-.skills{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:9px;
+.tag.hot{
+border-color:rgba(255,100,40,.35);
+color:#ff996e
 }
 
-.skill{
-min-height:56px;
-display:flex;
-align-items:center;
-gap:9px;
-padding:12px;
-border-radius:8px;
-background:
-linear-gradient(135deg,#27100c,#101010);
-border:1px solid rgba(255,80,20,.25);
-transition:.25s;
-}
-
-.skill:hover{
-transform:translateY(-2px);
-border-color:var(--orange);
-box-shadow:0 7px 20px rgba(255,50,10,.12);
-}
-
-.skill-icon{
-font-size:19px;
-}
-
-.skill b{
-font-size:13px;
-}
+/* MISSION */
 
 .mission{
-margin-top:23px;
-padding:17px;
-border-radius:10px;
+margin-top:18px;
+border-radius:20px;
+padding:21px;
 background:
-linear-gradient(135deg,rgba(255,70,20,.13),rgba(255,70,20,.02));
-border:1px solid rgba(255,70,20,.35);
+linear-gradient(
+120deg,
+rgba(255,82,25,.15),
+rgba(255,255,255,.025)
+);
+border:1px solid rgba(255,90,35,.25)
 }
 
-.mission-head{
-font-size:8px;
-font-weight:bold;
+.mission small{
+color:var(--accent);
+font-size:9px;
 letter-spacing:3px;
-color:var(--orange);
-margin-bottom:8px;
+font-weight:900
 }
 
-.mission-text{
-font-size:17px;
-font-weight:bold;
-line-height:1.5;
+.mission strong{
+display:block;
+font-size:20px;
+margin-top:7px
 }
 
-/* PAGE 3 */
-
-.photo-title{
-font-size:30px;
-font-weight:900;
-margin-bottom:7px;
-}
-
-.photo-sub{
-font-size:13px;
-line-height:1.6;
-color:#777;
-}
+/* ALBUM */
 
 .album{
-margin-top:23px;
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:11px;
+grid-template-columns:repeat(4,1fr);
+gap:13px
 }
 
 .photo{
-height:175px;
-position:relative;
-overflow:hidden;
-border-radius:10px;
+aspect-ratio:1;
+border-radius:20px;
+border:1px solid var(--line);
 background:
-linear-gradient(145deg,#24100d,#0b0b0b);
-border:1px solid rgba(255,80,20,.3);
-display:flex;
-align-items:center;
-justify-content:center;
+radial-gradient(
+circle at 50% 30%,
+rgba(255,90,30,.18),
+transparent 35%
+),
+#101012;
+display:grid;
+place-items:center;
+overflow:hidden;
+position:relative
 }
 
 .photo span{
 font-size:40px;
-opacity:.6;
+opacity:.7
 }
 
-.photo-label{
+.photo label{
 position:absolute;
-left:9px;
-bottom:8px;
+left:13px;
+bottom:12px;
 font-size:8px;
 letter-spacing:2px;
-color:#999;
+color:#aaa
 }
 
-/* NAVIGATION */
+/* CONTACT */
 
-.navigation{
+.contact{
+margin-top:22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+padding:20px;
+border:1px solid var(--line);
+border-radius:20px;
+background:#0e0e10
+}
+
+.contact p{
+color:#888;
+font-size:12px;
+line-height:1.5
+}
+
+/* CONTROLS */
+
+.controls{
 display:flex;
 align-items:center;
-justify-content:space-between;
-margin-top:14px;
+justify-content:center;
+gap:14px;
+margin-top:17px
 }
 
-.nav-btn{
-width:52px;
-height:52px;
-border-radius:50%;
-border:1px solid rgba(255,90,30,.5);
-background:rgba(255,70,20,.08);
+.arrow{
+width:48px;
+height:48px;
+border-radius:15px;
+border:1px solid var(--line);
+background:#111;
 color:#fff;
-font-size:28px;
+font-size:25px;
 cursor:pointer;
-transition:.25s;
+transition:.2s
 }
 
-.nav-btn:hover{
-background:var(--red);
-box-shadow:0 0 20px rgba(255,50,20,.5);
+.arrow:hover:not(:disabled){
+background:var(--accent);
+border-color:var(--accent)
 }
 
-.nav-btn:disabled{
-opacity:.2;
-cursor:not-allowed;
+.arrow:disabled{
+opacity:.25;
+cursor:not-allowed
 }
 
 .dots{
 display:flex;
-align-items:center;
-gap:8px;
+gap:7px
 }
 
 .dot{
 width:8px;
 height:8px;
-border-radius:50%;
-background:#3b3b3b;
+border-radius:20px;
+background:#333;
+border:0;
 cursor:pointer;
-transition:.3s;
+transition:.3s
 }
 
 .dot.active{
 width:28px;
-border-radius:10px;
-background:var(--orange);
-box-shadow:0 0 12px rgba(255,80,20,.7);
+background:var(--accent)
+}
+
+.counter{
+font-size:9px;
+letter-spacing:2px;
+color:#555;
+margin-left:4px
 }
 
 .footer{
 text-align:center;
+color:#444;
 font-size:8px;
 letter-spacing:3px;
-color:#3e3e3e;
-margin-top:10px;
+margin-top:15px
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(14px);
+display:none;
+place-items:center;
+padding:20px;
+z-index:50
+}
+
+.modal.show{
+display:grid
+}
+
+.modal-box{
+width:min(480px,100%);
+border:1px solid rgba(255,100,40,.35);
+background:#111113;
+border-radius:25px;
+padding:27px;
+box-shadow:0 30px 100px #000
+}
+
+.modal-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px
+}
+
+.close{
+border:0;
+background:#222;
+color:#fff;
+width:34px;
+height:34px;
+border-radius:10px;
+cursor:pointer
+}
+
+.modal-box p{
+color:#999;
+line-height:1.7;
+font-size:13px
+}
+
+/* TABLET */
+
+@media(max-width:800px){
+
+.nav{
+display:none
+}
+
+.menu{
+display:block
+}
+
+.topbar.open .nav{
+display:flex;
+position:absolute;
+top:72px;
+right:0;
+left:0;
+padding:8px;
+background:#101012;
+border:1px solid var(--line);
+border-radius:16px
+}
+
+.hero{
+grid-template-columns:1fr;
+min-height:auto
+}
+
+.portrait-wrap{
+order:-1
+}
+
+.portrait{
+width:min(300px,72vw)
+}
+
+.page{
+padding:28px 20px;
+min-height:700px
+}
+
+.grid{
+grid-template-columns:1fr 1fr
+}
+
+.album{
+grid-template-columns:1fr 1fr
+}
+
+.contact{
+flex-direction:column;
+align-items:flex-start
+}
+
 }
 
 /* MOBILE */
 
 @media(max-width:500px){
 
-.container{
-width:94%;
-margin-top:12px;
+.app{
+width:95%;
+padding-top:10px
+}
+
+.topbar{
+height:58px;
+border-radius:18px
+}
+
+.brand{
+font-size:13px
 }
 
 .page{
-min-height:670px;
-padding:24px 17px;
+padding:24px 16px
 }
 
-.symbol{
-width:145px;
-height:145px;
+.hero{
+gap:25px
 }
 
-.name{
-font-size:35px;
+.portrait{
+width:240px;
+border-radius:28px
 }
 
-.title,
-.photo-title{
-font-size:28px;
+h1{
+font-size:53px;
+letter-spacing:-3px
 }
 
-.data{
-padding:11px;
+.lead{
+font-size:13px
 }
 
-.data strong{
-font-size:13px;
+.grid{
+grid-template-columns:1fr
 }
 
-.skill{
-min-height:53px;
-padding:10px;
+.card{
+min-height:125px
+}
+
+.album{
+gap:9px
 }
 
 .photo{
-height:160px;
+border-radius:14px
+}
+
+h2{
+font-size:38px
+}
+
+.viewport{
+border-radius:23px
+}
+
+.badge{
+font-size:8px
 }
 
 }
 </style>
 </head>
 
-
 <body>
 
-<div class="container">
+<div class="app">
 
-<div class="header">
-<div class="village">SHINOBI WORLD</div>
-<div class="subtitle">RAGURAM.R · NINJA PROFILE SYSTEM</div>
-</div>
+<!-- TOP NAVIGATION -->
+
+<header class="topbar" id="topbar">
+
+<a class="brand"
+href="#"
+onclick="go(0);return false">
+
+<span class="brand-mark">R</span>
+
+<span>
+RAGURAM.R
+<small>DIGITAL PORTFOLIO</small>
+</span>
+
+</a>
+
+<nav class="nav">
+
+<button
+class="active"
+data-go="0">
+HOME
+</button>
+
+<button
+data-go="1">
+SKILLS
+</button>
+
+<button
+data-go="2">
+ARCHIVE
+</button>
+
+</nav>
+
+<button
+class="menu"
+id="menu">
+☰
+</button>
+
+</header>
 
 
-<div class="viewport" id="viewport">
+<!-- MAIN SLIDER -->
 
-<div class="track" id="track">
+<main
+class="viewport"
+id="viewport">
+
+<div
+class="track"
+id="track">
 
 
-<!-- ================= PAGE 1 ================= -->
+<!-- PAGE 1 -->
 
 <section class="page">
 
-<div class="content">
-
-<div class="page-code">
-<span>01 · SHINOBI PROFILE</span>
-<span class="status">ONLINE</span>
-</div>
-
-
-<div class="symbol">
-<img src="dp.png" alt="Raguram.R">
-</div>
-
-
-<div class="name">
-Raguram.R
-</div>
-
-<div class="rank">
-GENIN · 1ST YEAR
-</div>
-
-
-<div class="profile">
-
-<div class="data">
-
-<div class="icon">🎓</div>
+<div class="hero">
 
 <div>
-<small>EDUCATION</small>
-<strong>B.Sc Visual Communication</strong>
+
+<div class="eyebrow">
+01 / PROFILE
+</div>
+
+<h1>
+RAGURAM<span>.</span>R
+</h1>
+
+<p class="lead">
+First-year Visual Communication student building a creative path through C#, web development and digital storytelling.
+</p>
+
+<div class="cta">
+
+<button
+class="btn primary"
+onclick="go(1)">
+Explore Skills →
+</button>
+
+<button
+class="btn"
+onclick="openModal(
+'About Raguram',
+'A learner focused on building practical digital skills, creative web experiences and a strong personal portfolio.'
+)">
+About Me
+</button>
+
+</div>
+
+<div class="tags">
+
+<span class="tag hot">
+1ST YEAR
+</span>
+
+<span class="tag">
+ERODE
+</span>
+
+<span class="tag">
+CREATIVE
+</span>
+
 </div>
 
 </div>
 
 
-<div class="data">
+<!-- PROFILE IMAGE -->
 
-<div class="icon">🏫</div>
+<div class="portrait-wrap">
 
-<div>
-<small>COLLEGE</small>
-<strong>RD National College of Arts & Science</strong>
+<div class="portrait">
+
+<img
+src="dp.png"
+alt="Raguram.R">
+
 </div>
 
-</div>
-
-
-<div class="data">
-
-<div class="icon">📍</div>
-
-<div>
-<small>LOCATION</small>
-<strong>Erode</strong>
-</div>
-
+<div class="badge">
+ONLINE · LEARNING · BUILDING
 </div>
 
 </div>
@@ -644,169 +875,267 @@ GENIN · 1ST YEAR
 </section>
 
 
-<!-- ================= PAGE 2 ================= -->
+<!-- PAGE 2 -->
 
 <section class="page">
 
-<div class="content">
+<div class="section-head">
 
-<div class="page-code">
-<span>02 · NINJA SKILLS</span>
-<span class="status">ACTIVE</span>
+<div class="kicker">
+02 / SKILL MATRIX
 </div>
 
+<h2>
+Build. Learn. Create.
+</h2>
 
-<div class="title">
-Shinobi Skills ⚡
-</div>
-
-<div class="description">
-Skills, training and activities from Raguram's shinobi journey.
-</div>
-
-
-<div class="section">
-
-<div class="section-title">
-JUTSU · TECHNOLOGY
-</div>
-
-<div class="skills">
-
-<div class="skill">
-<span class="skill-icon">💻</span>
-<b>C#</b>
-</div>
-
-<div class="skill">
-<span class="skill-icon">🌐</span>
-<b>Web Development</b>
-</div>
-
-</div>
+<p class="sub">
+A premium snapshot of the skills and activities that are shaping the journey.
+</p>
 
 </div>
 
 
-<div class="section">
+<div class="grid">
 
-<div class="section-title">
-SHINOBI ACTIVITIES
+
+<article class="card">
+
+<div class="icon">
+⌘
 </div>
 
-<div class="skills">
+<b>
+C#
+</b>
 
-<div class="skill">
-<span class="skill-icon">🤝</span>
-<b>NSS</b>
+<p>
+Learning programming fundamentals and developing stronger problem-solving skills.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<div class="icon">
+◈
 </div>
 
-<div class="skill">
-<span class="skill-icon">🎖️</span>
-<b>NCC</b>
+<b>
+Web Development
+</b>
+
+<p>
+Creating responsive websites with HTML, CSS, JavaScript and modern UI ideas.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<div class="icon">
+✦
 </div>
 
-<div class="skill">
-<span class="skill-icon">⭐</span>
-<b>SCHOOL SPL</b>
+<b>
+Visual Communication
+</b>
+
+<p>
+Combining design, media and storytelling to communicate ideas visually.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<div class="icon">
+⚑
 </div>
 
+<b>
+NSS
+</b>
+
+<p>
+Social service experience and participation in community activities.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<div class="icon">
+★
 </div>
 
+<b>
+NCC
+</b>
+
+<p>
+Discipline, teamwork and leadership-oriented training experience.
+</p>
+
+</article>
+
+
+<article class="card">
+
+<div class="icon">
+◉
 </div>
 
+<b>
+School SPL
+</b>
 
-<div class="section">
+<p>
+Leadership and responsibility developed through school activities.
+</p>
 
-<div class="section-title">
-COMBAT TRAINING
-</div>
-
-<div class="skills">
-
-<div class="skill">
-<span class="skill-icon">🥋</span>
-<b>Silambam</b>
-</div>
-
-<div class="skill">
-<span class="skill-icon">🥋</span>
-<b>Karate</b>
-</div>
-
-<div class="skill">
-<span class="skill-icon">🥊</span>
-<b>Boxing</b>
-</div>
-
-</div>
+</article>
 
 </div>
 
 
 <div class="mission">
 
-<div class="mission-head">
-CURRENT SHINOBI MISSION
-</div>
+<small>
+CURRENT DIRECTION
+</small>
 
-<div class="mission-text">
-Keep learning.<br>
-Keep creating.<br>
-Keep moving forward.
-</div>
+<strong>
+Technology × Creativity × Discipline
+</strong>
 
 </div>
+
+
+<div class="tags">
+
+<span class="tag hot">
+SILAMBAM
+</span>
+
+<span class="tag hot">
+KARATE
+</span>
+
+<span class="tag hot">
+BOXING
+</span>
 
 </div>
 
 </section>
 
 
-<!-- ================= PAGE 3 ================= -->
+<!-- PAGE 3 -->
 
 <section class="page">
 
-<div class="content">
+<div class="section-head">
 
-<div class="page-code">
-<span>03 · MEMORY ARCHIVE</span>
-<span class="status">PRIVATE</span>
+<div class="kicker">
+03 / MEMORY ARCHIVE
 </div>
 
+<h2>
+My Journey.
+</h2>
 
-<div class="photo-title">
-Shinobi Memories 📸
-</div>
+<p class="sub">
+A clean space for future photos, projects, achievements and milestones.
+</p>
 
-<div class="photo-sub">
-A visual collection of moments from Raguram's journey.
 </div>
 
 
 <div class="album">
 
-<div class="photo">
-<span>🌀</span>
-<div class="photo-label">MEMORY 01</div>
-</div>
 
 <div class="photo">
-<span>🍥</span>
-<div class="photo-label">MEMORY 02</div>
+
+<span>
+◌
+</span>
+
+<label>
+MEMORY 01
+</label>
+
 </div>
+
 
 <div class="photo">
-<span>⚡</span>
-<div class="photo-label">MEMORY 03</div>
+
+<span>
+✦
+</span>
+
+<label>
+MEMORY 02
+</label>
+
 </div>
+
 
 <div class="photo">
-<span>🔥</span>
-<div class="photo-label">MEMORY 04</div>
-</div>
+
+<span>
+⚡
+</span>
+
+<label>
+MEMORY 03
+</label>
 
 </div>
+
+
+<div class="photo">
+
+<span>
+◇
+</span>
+
+<label>
+MEMORY 04
+</label>
+
+</div>
+
+
+</div>
+
+
+<div class="contact">
+
+<div>
+
+<b>
+More coming soon.
+</b>
+
+<p>
+Projects, certificates, photos and achievements can be added here later.
+</p>
+
+</div>
+
+<button
+class="btn primary"
+onclick="openModal(
+'Archive',
+'This archive is ready for your future projects, photos and achievements.'
+)">
+Open Archive
+</button>
 
 </div>
 
@@ -814,51 +1143,89 @@ A visual collection of moments from Raguram's journey.
 
 
 </div>
-</div>
+</main>
 
 
-<!-- NAVIGATION -->
+<!-- PAGE CONTROLS -->
 
-<div class="navigation">
+<div class="controls">
 
 <button
-class="nav-btn"
-id="prev">
+class="arrow"
+id="prev"
+aria-label="Previous page">
 ‹
 </button>
 
 
 <div class="dots">
 
-<div
+<button
 class="dot active"
 data-page="0">
-</div>
-
-<div
-class="dot"
-data-page="1">
-</div>
-
-<div
-class="dot"
-data-page="2">
-</div>
-
-</div>
-
+</button>
 
 <button
-class="nav-btn"
-id="next">
-›
+class="dot"
+data-page="1">
+</button>
+
+<button
+class="dot"
+data-page="2">
 </button>
 
 </div>
 
 
+<button
+class="arrow"
+id="next"
+aria-label="Next page">
+›
+</button>
+
+
+<span
+class="counter"
+id="counter">
+01 / 03
+</span>
+
+</div>
+
+
 <div class="footer">
-SHINOBI SYSTEM · RAGURAM.R
+RAGURAM.R · DIGITAL PORTFOLIO · 2026
+</div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div
+class="modal"
+id="modal">
+
+<div class="modal-box">
+
+<div class="modal-top">
+
+<h3 id="modalTitle">
+About
+</h3>
+
+<button
+class="close"
+onclick="closeModal()">
+×
+</button>
+
+</div>
+
+<p id="modalText"></p>
+
 </div>
 
 </div>
@@ -866,77 +1233,132 @@ SHINOBI SYSTEM · RAGURAM.R
 
 <script>
 
-const track=document.getElementById("track");
-const viewport=document.getElementById("viewport");
-const prev=document.getElementById("prev");
-const next=document.getElementById("next");
-const dots=document.querySelectorAll(".dot");
+const track =
+document.getElementById('track');
 
-let current=0;
+const viewport =
+document.getElementById('viewport');
+
+const prev =
+document.getElementById('prev');
+
+const next =
+document.getElementById('next');
+
+const dots =
+[...document.querySelectorAll('.dot')];
+
+const nav =
+[...document.querySelectorAll('.nav button')];
+
+const counter =
+document.getElementById('counter');
+
+const topbar =
+document.getElementById('topbar');
+
+let page = 0;
+
+let startX = 0;
+let startY = 0;
 
 
-/* PAGE CHANGE */
+/* PAGE NAVIGATION */
 
-function showPage(n){
+function go(n){
 
-current=Math.max(0,Math.min(2,n));
-
-track.style.transform=
-`translateX(-${current*33.3333}%)`;
-
-dots.forEach((dot,i)=>{
-dot.classList.toggle(
-"active",
-i===current
+page =
+Math.max(
+0,
+Math.min(2,n)
 );
-});
 
-prev.disabled=current===0;
-next.disabled=current===2;
+track.style.transform =
+`translateX(-${page*33.333333}%)`;
+
+
+dots.forEach(
+(d,i)=>
+d.classList.toggle(
+'active',
+i===page
+)
+);
+
+
+nav.forEach(
+(b,i)=>
+b.classList.toggle(
+'active',
+i===page
+)
+);
+
+
+prev.disabled =
+page===0;
+
+next.disabled =
+page===2;
+
+
+counter.textContent =
+`0${page+1} / 03`;
+
+topbar.classList.remove('open');
 
 }
 
 
-/* NEXT */
+/* ARROWS */
 
-next.addEventListener("click",()=>{
-showPage(current+1);
-});
+prev.onclick =
+() => go(page-1);
 
-
-/* PREVIOUS */
-
-prev.addEventListener("click",()=>{
-showPage(current-1);
-});
+next.onclick =
+() => go(page+1);
 
 
 /* DOTS */
 
-dots.forEach(dot=>{
-
-dot.addEventListener("click",()=>{
-
-showPage(
-Number(dot.dataset.page)
+dots.forEach(
+d =>
+d.onclick =
+() =>
+go(+d.dataset.page)
 );
 
-});
 
-});
+/* NAVIGATION */
+
+nav.forEach(
+b =>
+b.onclick =
+() =>
+go(+b.dataset.go)
+);
 
 
-/* ================= SWIPE ================= */
+/* MOBILE MENU */
 
-let startX=0;
-let startY=0;
+document
+.getElementById('menu')
+.onclick =
+() =>
+topbar.classList.toggle('open');
+
+
+/* SWIPE */
 
 viewport.addEventListener(
-"touchstart",
-e=>{
+'touchstart',
+e => {
 
-startX=e.touches[0].clientX;
-startY=e.touches[0].clientY;
+startX =
+e.touches[0].clientX;
+
+startY =
+e.touches[0].clientY;
 
 },
 {passive:true}
@@ -944,32 +1366,27 @@ startY=e.touches[0].clientY;
 
 
 viewport.addEventListener(
-"touchend",
-e=>{
+'touchend',
+e => {
 
-const endX=
+const dx =
+startX -
 e.changedTouches[0].clientX;
 
-const endY=
+const dy =
+startY -
 e.changedTouches[0].clientY;
 
-const dx=startX-endX;
-const dy=startY-endY;
 
 if(
 Math.abs(dx)>50 &&
 Math.abs(dx)>Math.abs(dy)
 ){
 
-if(dx>0){
-
-showPage(current+1);
-
-}else{
-
-showPage(current-1);
-
-}
+go(
+page +
+(dx>0 ? 1 : -1)
+);
 
 }
 
@@ -981,26 +1398,72 @@ showPage(current-1);
 /* KEYBOARD */
 
 document.addEventListener(
-"keydown",
-e=>{
+'keydown',
+e => {
 
-if(e.key==="ArrowRight"){
-showPage(current+1);
-}
+if(e.key === 'ArrowRight')
+go(page+1);
 
-if(e.key==="ArrowLeft"){
-showPage(current-1);
-}
+if(e.key === 'ArrowLeft')
+go(page-1);
+
+if(e.key === 'Escape')
+closeModal();
 
 }
 );
 
 
+/* MODAL */
+
+function openModal(title,text){
+
+document
+.getElementById('modalTitle')
+.textContent =
+title;
+
+document
+.getElementById('modalText')
+.textContent =
+text;
+
+document
+.getElementById('modal')
+.classList
+.add('show');
+
+}
+
+
+function closeModal(){
+
+document
+.getElementById('modal')
+.classList
+.remove('show');
+
+}
+
+
+document
+.getElementById('modal')
+.onclick =
+e => {
+
+if(
+e.target.id === 'modal'
+)
+closeModal();
+
+};
+
+
 /* START */
 
-showPage(0);
+go(0);
 
 </script>
 
 </body>
-  </html>
+</html>
